@@ -82,8 +82,28 @@ class AdaptiveOST:
         elif event_type == "TRAINER_SPOTTED":
             self.handle_trainer_spotted()
 
+        elif event_type == "STATE_LOADED":
+            self.handle_state_loaded(event)
+
         else:
             print(f"[EVENT] Unknown event: {event}")
+
+    def handle_state_loaded(self, event):
+        state = event["state"]
+        self.current_map = event["map_id"]
+        self.current_state = state
+        self.victory_playing = False
+
+        map_entry = self.map_music.get(str(self.current_map))
+        location = map_entry["name"] if map_entry else f"Unknown location ({self.current_map})"
+        print(f"[STATE] Savestate loaded: {location} [ID: {self.current_map}] [{state}]")
+
+        if state in BATTLE_TRACKS:
+            self.last_battle_state = state
+            self.play_track(BATTLE_TRACKS[state])
+        else:
+            self.last_battle_state = None
+            self.play_location_music()
 
     def handle_trainer_spotted(self):
         print("[TRAINER] Trainer spotted! Starting trainer music")

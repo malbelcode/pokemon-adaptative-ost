@@ -19,6 +19,7 @@ Other languages use different RAM addresses. See [docs/ARCHITECTURE.md](docs/ARC
 | Any trainer battle (gym leaders included) | `music/battles/trainer.mp3`                                   |
 | Victory fanfare (wild / trainer / gym)   | Matching `Victory (...)` track, played once                   |
 | Back to the overworld                    | The current map's theme again                                 |
+| Loading a savestate (F1–F9, rewind)      | Switches to the music of the place in the loaded state        |
 
 Not handled yet: gym leader and champion battle themes, trainer "eyes meet" music, rival
 and Oak cutscenes, bicycle, surfing, Jessie & James, the heal jingle, and the title screen.

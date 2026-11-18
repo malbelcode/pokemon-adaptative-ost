@@ -18,7 +18,8 @@ local previous = {
     battleResult = nil,
     channelKey = nil,
     victoryDetected = false,
-    trainerSpriteOffset = nil
+    trainerSpriteOffset = nil,
+    frame = nil
 }
 
 --------------------------------------------------
@@ -120,6 +121,31 @@ local function sendMusicChanged(musicId)
     sendEvent(message)
 end
 
+-- A savestate load (or rewind/reset) restores mGBA's frame counter, so the
+-- frame number jumps instead of advancing by one. Resync the controller then.
+local function sendStateLoaded()
+    local battle = emu:read8(ADDRESSES.isInBattle)
+    local map = emu:read8(ADDRESSES.curMap)
+    local result = emu:read8(ADDRESSES.battleResult)
+
+    previous.isInBattle = battle
+    previous.curMap = map
+    previous.battleResult = result
+    previous.channelKey = nil
+    previous.victoryDetected = false
+    previous.trainerSpriteOffset = emu:read8(ADDRESSES.trainerSpriteOffset)
+
+    console:log("[OST] State loaded, resyncing music")
+
+    sendEvent(string.format(
+        '{"event":"STATE_LOADED","map_id":%d,"state":"%s","value":%d,"battle_result":%d}\n',
+        map,
+        getBattleState(battle),
+        battle,
+        result
+    ))
+end
+
 --------------------------------------------------
 -- INITIAL GAME STATE
 --------------------------------------------------
@@ -136,6 +162,8 @@ previous.battleResult = initialResult
 
 sendBattleChanged(initialBattle, initialMap, initialResult)
 
+previous.frame = emu:currentFrame()
+
 --------------------------------------------------
 -- GAME STATE MONITORING
 --------------------------------------------------
@@ -143,6 +171,15 @@ sendBattleChanged(initialBattle, initialMap, initialResult)
 console:log("[OST] Game-state monitoring started")
 
 callbacks:add("frame", function()
+    local frame = emu:currentFrame()
+    local stateLoaded = previous.frame ~= nil and frame ~= previous.frame + 1
+    previous.frame = frame
+
+    if stateLoaded then
+        sendStateLoaded()
+        return
+    end
+
     local battle = emu:read8(ADDRESSES.isInBattle)
     local map = emu:read8(ADDRESSES.curMap)
 

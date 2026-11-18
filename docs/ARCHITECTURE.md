@@ -35,6 +35,7 @@ Newline-delimited JSON over TCP to `127.0.0.1:8765`. Each line is one event:
 | `BATTLE_CHANGED` | At script start, and whenever `wIsInBattle` changes | `state`, `value`, `map_id`, `battle_result` |
 | `VICTORY_STARTED` | Music channels 0–2 all switch to a victory song id | `victory_type` |
 | `TRAINER_SPOTTED` | The byte at 0xCD3D changes to 255 (a trainer has seen the player) | none |
+| `STATE_LOADED` | `emu:currentFrame()` does not advance by exactly 1 since the last frame (savestate load, rewind or reset; mGBA restores the frame counter from the state). That frame's other checks are skipped and all `previous` values are re-read. | `map_id`, `state`, `value`, `battle_result` |
 | `MUSIC_CHANGED` | Defined in Lua (`sendMusicChanged`) but never sent | `music_id` |
 
 `state` is derived from `wIsInBattle`:
@@ -77,6 +78,7 @@ State: `current_state` (last `BATTLE_CHANGED.state`), `current_map`, `current_tr
 | `BATTLE_CHANGED` with `LOST_BATTLE` / `UNKNOWN` | Only stores the state. The current track keeps playing. |
 | `VICTORY_STARTED` | Play `VICTORY_TRACKS[type]` once (`loop-file=no`). |
 | `TRAINER_SPOTTED` | Play `BATTLE_TRACKS["TRAINER_BATTLE"]`, looped, and log `[TRAINER]`. `current_state` is not changed. |
+| `STATE_LOADED` | Set `current_map` and `current_state`, clear `victory_playing`, log `[STATE]`. Play the battle track for `WILD_BATTLE` / `TRAINER_BATTLE`, or the map's track otherwise. |
 | mpv `end-file` with `reason: eof` | If `OVERWORLD`, play the map's track. This callback runs on the mpv event thread. |
 
 `play_track` skips the request when the track is already the current one, so repeated
