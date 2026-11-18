@@ -37,7 +37,7 @@ Newline-delimited JSON over TCP to `127.0.0.1:8765`. Each line is one event:
 | `MAP_CHANGED` | At script start, and whenever `wCurMap` changes | `map_id` (int, 0–248) |
 | `BATTLE_CHANGED` | At script start, and whenever `wIsInBattle` changes | `state`, `value`, `map_id`, `battle_result` |
 | `VICTORY_STARTED` | Music channels 0–2 all switch to a victory song id | `victory_type` |
-| `TRAINER_SPOTTED` | The byte at 0xCD3D changes to 255 (a trainer has seen the player) | none |
+| `TRAINER_SPOTTED` | The byte at 0xCD3D changes to 255 (a trainer has seen the player), and within the next 180 frames, while not in battle, music channels 0–2 all hold a trainer intro song id. If no intro song starts (rival, scripted fights), nothing is sent. | `trainer_music`: `MALE` (0xFB), `FEMALE` (0xF8) or `EVIL` (0xF5) |
 | `HEARTBEAT` | Every 10 frames (~0.17 s at full speed). Stops while mGBA is paused. | none |
 | `STATE_LOADED` | `emu:currentFrame()` does not advance by exactly 1 since the last frame (savestate load, rewind or reset; mGBA restores the frame counter from the state). That frame's other checks are skipped and all `previous` values are re-read. | `map_id`, `state`, `value`, `battle_result` |
 | `MUSIC_CHANGED` | Defined in Lua (`sendMusicChanged`) but never sent | `music_id` |
@@ -81,7 +81,7 @@ State: `current_state` (last `BATTLE_CHANGED.state`), `current_map`, `current_tr
 | `BATTLE_CHANGED` with `OVERWORLD` | Play the current map's track. This cuts off a victory fanfare that is still playing, as the game does. |
 | `BATTLE_CHANGED` with `LOST_BATTLE` / `UNKNOWN` | Only stores the state. The current track keeps playing. |
 | `VICTORY_STARTED` | Play `VICTORY_TRACKS[type]` once (`loop-file=no`). |
-| `TRAINER_SPOTTED` | Play `BATTLE_TRACKS["TRAINER_BATTLE"]`, looped, and log `[TRAINER]`. `current_state` is not changed. |
+| `TRAINER_SPOTTED` | Play `TRAINER_INTRO_TRACKS[trainer_music]` (`17`/`23`/`38 A Trainer Appears (…)`), looped, and log `[TRAINER]`. `current_state` is not changed. The following `BATTLE_CHANGED` with `TRAINER_BATTLE` switches to the battle theme. |
 | `STATE_LOADED` | Set `current_map` and `current_state`, clear `victory_playing`, log `[STATE]`. Play the battle track for `WILD_BATTLE` / `TRAINER_BATTLE`, or the map's track otherwise. |
 | `HEARTBEAT` | Ignored by `handle_event`. Like every message, it resumes paused music. |
 | No message for 0.5 s (`HEARTBEAT_TIMEOUT`) | Pause mpv and log `[PAUSE]`. mGBA runs no frames while paused, including when its "pause when inactive" option pauses it in the background. The next message resumes playback at the same position. |

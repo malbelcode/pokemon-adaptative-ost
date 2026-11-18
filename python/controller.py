@@ -29,6 +29,14 @@ BATTLE_TRACKS = {
     "TRAINER_BATTLE": "09 Battle (Trainer).mp3",
 }
 
+# Keyed by the "trainer_music" field of TRAINER_SPOTTED, which the Lua script
+# reads from the song the game starts (MUSIC_MEET_*_TRAINER).
+TRAINER_INTRO_TRACKS = {
+    "MALE": "17 A Trainer Appears (Boy Version).mp3",
+    "FEMALE": "23 A Trainer Appears (Girl Version).mp3",
+    "EVIL": "38 A Trainer Appears (Bad Guy Version).mp3",
+}
+
 VICTORY_TRACKS = {
     "WILD_BATTLE": "13 Victory (Wild Pokemon).mp3",
     "TRAINER_BATTLE": "10 Victory (Trainer).mp3",
@@ -152,7 +160,7 @@ class AdaptiveOST:
             self.handle_victory_started(event)
 
         elif event_type == "TRAINER_SPOTTED":
-            self.handle_trainer_spotted()
+            self.handle_trainer_spotted(event)
 
         elif event_type == "STATE_LOADED":
             self.handle_state_loaded(event)
@@ -180,10 +188,19 @@ class AdaptiveOST:
             self.last_battle_state = None
             self.play_location_music()
 
-    def handle_trainer_spotted(self):
-        print("[TRAINER] Trainer spotted! Starting trainer music")
+    def handle_trainer_spotted(self, event):
+        kind = event.get("trainer_music")
+        intro = TRAINER_INTRO_TRACKS.get(kind)
 
-        self.play_track(self.tracks.resolve(BATTLE_TRACKS["TRAINER_BATTLE"]))
+        if intro is None:
+            print(f"[TRAINER] Trainer spotted, unknown intro music {kind!r}; keeping current music")
+            return
+
+        print(f"[TRAINER] Trainer spotted ({kind}). Playing the trainer intro until the battle starts")
+
+        # Looped like the game does until the battle starts; BATTLE_CHANGED with
+        # TRAINER_BATTLE then switches to the battle theme.
+        self.play_track(self.tracks.resolve(intro))
 
     def handle_victory_started(self, event):
         victory_type = event["victory_type"]
