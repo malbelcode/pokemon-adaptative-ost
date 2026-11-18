@@ -84,8 +84,22 @@ State: `current_state` (last `BATTLE_CHANGED.state`), `current_map`, `current_tr
 `play_track` skips the request when the track is already the current one, so repeated
 events don't restart the song.
 
-Map track lookup: `data/map_music.json[str(map_id)].track`, relative to the repository root.
-If it is `null`, `music/locations/default.wav` plays instead.
+Map track lookup: `data/map_music.json[str(map_id)].track` is a canonical track name, which
+`TrackResolver` (`python/music_sources.py`) turns into a file in the selected source.
+If it is `null`, or the name is in no source, `music/locations/default.wav` plays instead.
+
+## Music sources
+
+`config/music_sources.json` maps a source name to a folder and names the default.
+`controller.py --source NAME` overrides the default for one run. All folders use the
+same canonical file names (`NN Title.mp3`), set by `tools/normalize_music.py`, so switching
+a source changes only the folder. `TrackResolver.resolve(name)` looks in the selected
+source first, then in the others in config order, and logs `[TRACK]` when it falls back
+or finds nothing. Results are cached per name.
+
+Numbers 01–55 follow the official soundtrack's order. 56–63 exist only in the zophar set
+(heal jingle, Jigglypuff, fanfares). Zophar's 44 unnamed 1–4 s jingles are in its
+`unidentified/` subfolder.
 
 ## Map → music registry
 
@@ -94,10 +108,10 @@ If it is `null`, `music/locations/default.wav` plays instead.
 ```text
 map_constants.asm  "map_const PALLET_TOWN, 10, 9 ; $00"   → id 0  ↔ PALLET_TOWN
 songs.asm          "db MUSIC_PALLET_TOWN, … ; PALLET_TOWN" → PALLET_TOWN ↔ MUSIC_PALLET_TOWN
-music_themes.json  "MUSIC_PALLET_TOWN": "04 Pallet Town's Theme.mp3"
+music_themes.json  "MUSIC_PALLET_TOWN": "05 Pallet Town.mp3"
                     ⇒ "0": {"name": "Pallet Town", "symbol": "PALLET_TOWN",
                             "music_id": "MUSIC_PALLET_TOWN",
-                            "track": "music/Pokemon Yellow (MP3).zophar/04 Pallet Town's Theme.mp3"}
+                            "track": "05 Pallet Town.mp3"}
 ```
 
 The `.asm` files come from the [pokeyellow](https://github.com/pret/pokeyellow)
@@ -130,11 +144,12 @@ raw song ids must also know the bank.
 
 | Path | Used by | Notes |
 | --- | --- | --- |
-| `music/Pokemon Yellow (MP3).zophar/` | registry, `VICTORY_TRACKS` | 98 files, 313 MB. Most are fixed 180 s renders with a fade-out in the last ~5 s. |
-| `music/battles/{wild,trainer}.mp3` | `BATTLE_TRACKS` | Byte-identical copies of zophar tracks 25 and 24 |
-| `music/locations/*.mp3` | nothing | Copies of zophar tracks 04, 19 and 32 |
+| `music/Pokemon Yellow (MP3).zophar/` | source `zophar` (default) | 98 files, 313 MB. 54 canonical tracks + `unidentified/` jingles. Most are fixed 180 s renders with a fade-out in the last ~5 s. |
+| `music/Pokémon Yellow Soundtrack MP3/Part I - Stereo/` | source `ost_stereo` | 55 tracks, 48 kHz, real stereo panning, 1–1.5 min each with a fade-out in the last ~10 s |
+| `music/Pokémon Yellow Soundtrack MP3/Part II - Mono/` | source `ost_mono` | The same 55 recordings, L = R |
+| `music/battles/{wild,trainer}.mp3` | nothing | Byte-identical copies of zophar `12` and `09` (old names 25, 24) |
+| `music/locations/*.mp3` | nothing | Copies of zophar `05`, `11` and `07` |
 | `music/locations/default.wav`, `music/battles/*.wav` | default location track | Placeholders from `generate_tracks.py` |
-| `music/Pokémon Yellow Soundtrack MP3/` | nothing | Another rip (stereo + mono), 362 MB |
 | `music/events/` | nothing | Empty |
 
 ## Known limitations

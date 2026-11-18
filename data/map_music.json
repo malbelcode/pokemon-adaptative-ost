@@ -3,1303 +3,1303 @@
         "name": "Pallet Town",
         "symbol": "PALLET_TOWN",
         "music_id": "MUSIC_PALLET_TOWN",
-        "track": "music/Pokemon Yellow (MP3).zophar/04 Pallet Town's Theme.mp3"
+        "track": "05 Pallet Town.mp3"
     },
     "1": {
         "name": "Viridian City",
         "symbol": "VIRIDIAN_CITY",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "2": {
         "name": "Pewter City",
         "symbol": "PEWTER_CITY",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "3": {
         "name": "Cerulean City",
         "symbol": "CERULEAN_CITY",
         "music_id": "MUSIC_CITIES2",
-        "track": "music/Pokemon Yellow (MP3).zophar/08 Cerulean City's Theme.mp3"
+        "track": "26 Cerulean City.mp3"
     },
     "4": {
         "name": "Lavender Town",
         "symbol": "LAVENDER_TOWN",
         "music_id": "MUSIC_LAVENDER",
-        "track": "music/Pokemon Yellow (MP3).zophar/12 Lavender Town's Theme.mp3"
+        "track": "33 Lavender Town.mp3"
     },
     "5": {
         "name": "Vermilion City",
         "symbol": "VERMILION_CITY",
         "music_id": "MUSIC_VERMILION",
-        "track": "music/Pokemon Yellow (MP3).zophar/11 Vermilion City's Theme.mp3"
+        "track": "29 Vermilion City.mp3"
     },
     "6": {
         "name": "Celadon City",
         "symbol": "CELADON_CITY",
         "music_id": "MUSIC_CELADON",
-        "track": "music/Pokemon Yellow (MP3).zophar/09 Celadon City's Theme.mp3"
+        "track": "35 Celadon City.mp3"
     },
     "7": {
         "name": "Fuchsia City",
         "symbol": "FUCHSIA_CITY",
         "music_id": "MUSIC_CITIES2",
-        "track": "music/Pokemon Yellow (MP3).zophar/08 Cerulean City's Theme.mp3"
+        "track": "26 Cerulean City.mp3"
     },
     "8": {
         "name": "Cinnabar Island",
         "symbol": "CINNABAR_ISLAND",
         "music_id": "MUSIC_CINNABAR",
-        "track": "music/Pokemon Yellow (MP3).zophar/10 Cinnabar Island's Theme.mp3"
+        "track": "42 Cinnabar Island.mp3"
     },
     "9": {
         "name": "Indigo Plateau",
         "symbol": "INDIGO_PLATEAU",
         "music_id": "MUSIC_INDIGO_PLATEAU",
-        "track": "music/Pokemon Yellow (MP3).zophar/31 Into the Hall.mp3"
+        "track": "44 The Final Road.mp3"
     },
     "10": {
         "name": "Saffron City",
         "symbol": "SAFFRON_CITY",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "11": {
         "name": "Unused Map 0B",
         "symbol": "UNUSED_MAP_0B",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "12": {
         "name": "Route 1",
         "symbol": "ROUTE_1",
         "music_id": "MUSIC_ROUTES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/19 The Road to Viridian City ~ from Pallet.mp3"
+        "track": "11 Road to Viridian City (Leaving Pallet Town).mp3"
     },
     "13": {
         "name": "Route 2",
         "symbol": "ROUTE_2",
         "music_id": "MUSIC_ROUTES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/19 The Road to Viridian City ~ from Pallet.mp3"
+        "track": "11 Road to Viridian City (Leaving Pallet Town).mp3"
     },
     "14": {
         "name": "Route 3",
         "symbol": "ROUTE_3",
         "music_id": "MUSIC_ROUTES3",
-        "track": "music/Pokemon Yellow (MP3).zophar/21 The Road to Lavender Town ~ from Vermilion.mp3"
+        "track": "22 Road to Cerulean City (Leaving Mt. Moon).mp3"
     },
     "15": {
         "name": "Route 4",
         "symbol": "ROUTE_4",
         "music_id": "MUSIC_ROUTES3",
-        "track": "music/Pokemon Yellow (MP3).zophar/21 The Road to Lavender Town ~ from Vermilion.mp3"
+        "track": "22 Road to Cerulean City (Leaving Mt. Moon).mp3"
     },
     "16": {
         "name": "Route 5",
         "symbol": "ROUTE_5",
         "music_id": "MUSIC_ROUTES3",
-        "track": "music/Pokemon Yellow (MP3).zophar/21 The Road to Lavender Town ~ from Vermilion.mp3"
+        "track": "22 Road to Cerulean City (Leaving Mt. Moon).mp3"
     },
     "17": {
         "name": "Route 6",
         "symbol": "ROUTE_6",
         "music_id": "MUSIC_ROUTES3",
-        "track": "music/Pokemon Yellow (MP3).zophar/21 The Road to Lavender Town ~ from Vermilion.mp3"
+        "track": "22 Road to Cerulean City (Leaving Mt. Moon).mp3"
     },
     "18": {
         "name": "Route 7",
         "symbol": "ROUTE_7",
         "music_id": "MUSIC_ROUTES3",
-        "track": "music/Pokemon Yellow (MP3).zophar/21 The Road to Lavender Town ~ from Vermilion.mp3"
+        "track": "22 Road to Cerulean City (Leaving Mt. Moon).mp3"
     },
     "19": {
         "name": "Route 8",
         "symbol": "ROUTE_8",
         "music_id": "MUSIC_ROUTES3",
-        "track": "music/Pokemon Yellow (MP3).zophar/21 The Road to Lavender Town ~ from Vermilion.mp3"
+        "track": "22 Road to Cerulean City (Leaving Mt. Moon).mp3"
     },
     "20": {
         "name": "Route 9",
         "symbol": "ROUTE_9",
         "music_id": "MUSIC_ROUTES3",
-        "track": "music/Pokemon Yellow (MP3).zophar/21 The Road to Lavender Town ~ from Vermilion.mp3"
+        "track": "22 Road to Cerulean City (Leaving Mt. Moon).mp3"
     },
     "21": {
         "name": "Route 10",
         "symbol": "ROUTE_10",
         "music_id": "MUSIC_ROUTES3",
-        "track": "music/Pokemon Yellow (MP3).zophar/21 The Road to Lavender Town ~ from Vermilion.mp3"
+        "track": "22 Road to Cerulean City (Leaving Mt. Moon).mp3"
     },
     "22": {
         "name": "Route 11",
         "symbol": "ROUTE_11",
         "music_id": "MUSIC_ROUTES4",
-        "track": "music/Pokemon Yellow (MP3).zophar/22 The Last Road.mp3"
+        "track": "32 Road to Lavender Town (Leaving Vermilion City).mp3"
     },
     "23": {
         "name": "Route 12",
         "symbol": "ROUTE_12",
         "music_id": "MUSIC_ROUTES4",
-        "track": "music/Pokemon Yellow (MP3).zophar/22 The Last Road.mp3"
+        "track": "32 Road to Lavender Town (Leaving Vermilion City).mp3"
     },
     "24": {
         "name": "Route 13",
         "symbol": "ROUTE_13",
         "music_id": "MUSIC_ROUTES4",
-        "track": "music/Pokemon Yellow (MP3).zophar/22 The Last Road.mp3"
+        "track": "32 Road to Lavender Town (Leaving Vermilion City).mp3"
     },
     "25": {
         "name": "Route 14",
         "symbol": "ROUTE_14",
         "music_id": "MUSIC_ROUTES4",
-        "track": "music/Pokemon Yellow (MP3).zophar/22 The Last Road.mp3"
+        "track": "32 Road to Lavender Town (Leaving Vermilion City).mp3"
     },
     "26": {
         "name": "Route 15",
         "symbol": "ROUTE_15",
         "music_id": "MUSIC_ROUTES4",
-        "track": "music/Pokemon Yellow (MP3).zophar/22 The Last Road.mp3"
+        "track": "32 Road to Lavender Town (Leaving Vermilion City).mp3"
     },
     "27": {
         "name": "Route 16",
         "symbol": "ROUTE_16",
         "music_id": "MUSIC_ROUTES3",
-        "track": "music/Pokemon Yellow (MP3).zophar/21 The Road to Lavender Town ~ from Vermilion.mp3"
+        "track": "22 Road to Cerulean City (Leaving Mt. Moon).mp3"
     },
     "28": {
         "name": "Route 17",
         "symbol": "ROUTE_17",
         "music_id": "MUSIC_ROUTES3",
-        "track": "music/Pokemon Yellow (MP3).zophar/21 The Road to Lavender Town ~ from Vermilion.mp3"
+        "track": "22 Road to Cerulean City (Leaving Mt. Moon).mp3"
     },
     "29": {
         "name": "Route 18",
         "symbol": "ROUTE_18",
         "music_id": "MUSIC_ROUTES3",
-        "track": "music/Pokemon Yellow (MP3).zophar/21 The Road to Lavender Town ~ from Vermilion.mp3"
+        "track": "22 Road to Cerulean City (Leaving Mt. Moon).mp3"
     },
     "30": {
         "name": "Route 19",
         "symbol": "ROUTE_19",
         "music_id": "MUSIC_ROUTES3",
-        "track": "music/Pokemon Yellow (MP3).zophar/21 The Road to Lavender Town ~ from Vermilion.mp3"
+        "track": "22 Road to Cerulean City (Leaving Mt. Moon).mp3"
     },
     "31": {
         "name": "Route 20",
         "symbol": "ROUTE_20",
         "music_id": "MUSIC_ROUTES3",
-        "track": "music/Pokemon Yellow (MP3).zophar/21 The Road to Lavender Town ~ from Vermilion.mp3"
+        "track": "22 Road to Cerulean City (Leaving Mt. Moon).mp3"
     },
     "32": {
         "name": "Route 21",
         "symbol": "ROUTE_21",
         "music_id": "MUSIC_ROUTES3",
-        "track": "music/Pokemon Yellow (MP3).zophar/21 The Road to Lavender Town ~ from Vermilion.mp3"
+        "track": "22 Road to Cerulean City (Leaving Mt. Moon).mp3"
     },
     "33": {
         "name": "Route 22",
         "symbol": "ROUTE_22",
         "music_id": "MUSIC_ROUTES3",
-        "track": "music/Pokemon Yellow (MP3).zophar/21 The Road to Lavender Town ~ from Vermilion.mp3"
+        "track": "22 Road to Cerulean City (Leaving Mt. Moon).mp3"
     },
     "34": {
         "name": "Route 23",
         "symbol": "ROUTE_23",
         "music_id": "MUSIC_INDIGO_PLATEAU",
-        "track": "music/Pokemon Yellow (MP3).zophar/31 Into the Hall.mp3"
+        "track": "44 The Final Road.mp3"
     },
     "35": {
         "name": "Route 24",
         "symbol": "ROUTE_24",
         "music_id": "MUSIC_ROUTES2",
-        "track": "music/Pokemon Yellow (MP3).zophar/20 The Road to Cerulean ~ from Mt. Moon.mp3"
+        "track": "27 To Bill (Leaving Cerulean City).mp3"
     },
     "36": {
         "name": "Route 25",
         "symbol": "ROUTE_25",
         "music_id": "MUSIC_ROUTES2",
-        "track": "music/Pokemon Yellow (MP3).zophar/20 The Road to Cerulean ~ from Mt. Moon.mp3"
+        "track": "27 To Bill (Leaving Cerulean City).mp3"
     },
     "37": {
         "name": "Reds House 1F",
         "symbol": "REDS_HOUSE_1F",
         "music_id": "MUSIC_PALLET_TOWN",
-        "track": "music/Pokemon Yellow (MP3).zophar/04 Pallet Town's Theme.mp3"
+        "track": "05 Pallet Town.mp3"
     },
     "38": {
         "name": "Reds House 2F",
         "symbol": "REDS_HOUSE_2F",
         "music_id": "MUSIC_PALLET_TOWN",
-        "track": "music/Pokemon Yellow (MP3).zophar/04 Pallet Town's Theme.mp3"
+        "track": "05 Pallet Town.mp3"
     },
     "39": {
         "name": "Blues House",
         "symbol": "BLUES_HOUSE",
         "music_id": "MUSIC_PALLET_TOWN",
-        "track": "music/Pokemon Yellow (MP3).zophar/04 Pallet Town's Theme.mp3"
+        "track": "05 Pallet Town.mp3"
     },
     "40": {
         "name": "Professor Oak's Laboratory",
         "symbol": "OAKS_LAB",
         "music_id": "MUSIC_OAKS_LAB",
-        "track": "music/Pokemon Yellow (MP3).zophar/32 Oak Research Lab.mp3"
+        "track": "07 Professor Oak's Laboratory.mp3"
     },
     "41": {
         "name": "Viridian Pokecenter",
         "symbol": "VIRIDIAN_POKECENTER",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "42": {
         "name": "Viridian Mart",
         "symbol": "VIRIDIAN_MART",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "43": {
         "name": "Viridian School House",
         "symbol": "VIRIDIAN_SCHOOL_HOUSE",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "44": {
         "name": "Viridian Nickname House",
         "symbol": "VIRIDIAN_NICKNAME_HOUSE",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "45": {
         "name": "Viridian Gym",
         "symbol": "VIRIDIAN_GYM",
         "music_id": "MUSIC_GYM",
-        "track": "music/Pokemon Yellow (MP3).zophar/06 Pokemon Gym.mp3"
+        "track": "19 Pokemon Gym.mp3"
     },
     "46": {
         "name": "Digletts Cave Route 2",
         "symbol": "DIGLETTS_CAVE_ROUTE_2",
         "music_id": "MUSIC_DUNGEON2",
-        "track": "music/Pokemon Yellow (MP3).zophar/38 Viridian Forest.mp3"
+        "track": "16 Viridian Forest.mp3"
     },
     "47": {
         "name": "Viridian Forest North Gate",
         "symbol": "VIRIDIAN_FOREST_NORTH_GATE",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "48": {
         "name": "Route 2 Trade House",
         "symbol": "ROUTE_2_TRADE_HOUSE",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "49": {
         "name": "Route 2 Gate",
         "symbol": "ROUTE_2_GATE",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "50": {
         "name": "Viridian Forest South Gate",
         "symbol": "VIRIDIAN_FOREST_SOUTH_GATE",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "51": {
         "name": "Viridian Forest",
         "symbol": "VIRIDIAN_FOREST",
         "music_id": "MUSIC_DUNGEON2",
-        "track": "music/Pokemon Yellow (MP3).zophar/38 Viridian Forest.mp3"
+        "track": "16 Viridian Forest.mp3"
     },
     "52": {
         "name": "Museum 1F",
         "symbol": "MUSEUM_1F",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "53": {
         "name": "Museum 2F",
         "symbol": "MUSEUM_2F",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "54": {
         "name": "Pewter Gym",
         "symbol": "PEWTER_GYM",
         "music_id": "MUSIC_GYM",
-        "track": "music/Pokemon Yellow (MP3).zophar/06 Pokemon Gym.mp3"
+        "track": "19 Pokemon Gym.mp3"
     },
     "55": {
         "name": "Pewter Nidoran House",
         "symbol": "PEWTER_NIDORAN_HOUSE",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "56": {
         "name": "Pewter Mart",
         "symbol": "PEWTER_MART",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "57": {
         "name": "Pewter Speech House",
         "symbol": "PEWTER_SPEECH_HOUSE",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "58": {
         "name": "Pewter Pokecenter",
         "symbol": "PEWTER_POKECENTER",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "59": {
         "name": "Mt Moon 1F",
         "symbol": "MT_MOON_1F",
         "music_id": "MUSIC_DUNGEON3",
-        "track": "music/Pokemon Yellow (MP3).zophar/39 Mt. Moon Cave.mp3"
+        "track": "24 Caves of Mt. Moon.mp3"
     },
     "60": {
         "name": "Mt Moon B1F",
         "symbol": "MT_MOON_B1F",
         "music_id": "MUSIC_DUNGEON3",
-        "track": "music/Pokemon Yellow (MP3).zophar/39 Mt. Moon Cave.mp3"
+        "track": "24 Caves of Mt. Moon.mp3"
     },
     "61": {
         "name": "Mt Moon B2F",
         "symbol": "MT_MOON_B2F",
         "music_id": "MUSIC_DUNGEON3",
-        "track": "music/Pokemon Yellow (MP3).zophar/39 Mt. Moon Cave.mp3"
+        "track": "24 Caves of Mt. Moon.mp3"
     },
     "62": {
         "name": "Cerulean Trashed House",
         "symbol": "CERULEAN_TRASHED_HOUSE",
         "music_id": "MUSIC_CITIES2",
-        "track": "music/Pokemon Yellow (MP3).zophar/08 Cerulean City's Theme.mp3"
+        "track": "26 Cerulean City.mp3"
     },
     "63": {
         "name": "Cerulean Melanies House",
         "symbol": "CERULEAN_MELANIES_HOUSE",
         "music_id": "MUSIC_CITIES2",
-        "track": "music/Pokemon Yellow (MP3).zophar/08 Cerulean City's Theme.mp3"
+        "track": "26 Cerulean City.mp3"
     },
     "64": {
         "name": "Cerulean Pokecenter",
         "symbol": "CERULEAN_POKECENTER",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "65": {
         "name": "Cerulean Gym",
         "symbol": "CERULEAN_GYM",
         "music_id": "MUSIC_GYM",
-        "track": "music/Pokemon Yellow (MP3).zophar/06 Pokemon Gym.mp3"
+        "track": "19 Pokemon Gym.mp3"
     },
     "66": {
         "name": "Bike Shop",
         "symbol": "BIKE_SHOP",
         "music_id": "MUSIC_CITIES2",
-        "track": "music/Pokemon Yellow (MP3).zophar/08 Cerulean City's Theme.mp3"
+        "track": "26 Cerulean City.mp3"
     },
     "67": {
         "name": "Cerulean Mart",
         "symbol": "CERULEAN_MART",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "68": {
         "name": "Mt Moon Pokecenter",
         "symbol": "MT_MOON_POKECENTER",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "69": {
         "name": "Cerulean Trashed House Copy",
         "symbol": "CERULEAN_TRASHED_HOUSE_COPY",
         "music_id": "MUSIC_DUNGEON3",
-        "track": "music/Pokemon Yellow (MP3).zophar/39 Mt. Moon Cave.mp3"
+        "track": "24 Caves of Mt. Moon.mp3"
     },
     "70": {
         "name": "Route 5 Gate",
         "symbol": "ROUTE_5_GATE",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "71": {
         "name": "Underground Path Route 5",
         "symbol": "UNDERGROUND_PATH_ROUTE_5",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "72": {
         "name": "Daycare",
         "symbol": "DAYCARE",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "73": {
         "name": "Route 6 Gate",
         "symbol": "ROUTE_6_GATE",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "74": {
         "name": "Underground Path Route 6",
         "symbol": "UNDERGROUND_PATH_ROUTE_6",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "75": {
         "name": "Underground Path Route 6 Copy",
         "symbol": "UNDERGROUND_PATH_ROUTE_6_COPY",
         "music_id": "MUSIC_VERMILION",
-        "track": "music/Pokemon Yellow (MP3).zophar/11 Vermilion City's Theme.mp3"
+        "track": "29 Vermilion City.mp3"
     },
     "76": {
         "name": "Route 7 Gate",
         "symbol": "ROUTE_7_GATE",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "77": {
         "name": "Underground Path Route 7",
         "symbol": "UNDERGROUND_PATH_ROUTE_7",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "78": {
         "name": "Underground Path Route 7 Copy",
         "symbol": "UNDERGROUND_PATH_ROUTE_7_COPY",
         "music_id": "MUSIC_CELADON",
-        "track": "music/Pokemon Yellow (MP3).zophar/09 Celadon City's Theme.mp3"
+        "track": "35 Celadon City.mp3"
     },
     "79": {
         "name": "Route 8 Gate",
         "symbol": "ROUTE_8_GATE",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "80": {
         "name": "Underground Path Route 8",
         "symbol": "UNDERGROUND_PATH_ROUTE_8",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "81": {
         "name": "Rock Tunnel Pokecenter",
         "symbol": "ROCK_TUNNEL_POKECENTER",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "82": {
         "name": "Rock Tunnel 1F",
         "symbol": "ROCK_TUNNEL_1F",
         "music_id": "MUSIC_DUNGEON3",
-        "track": "music/Pokemon Yellow (MP3).zophar/39 Mt. Moon Cave.mp3"
+        "track": "24 Caves of Mt. Moon.mp3"
     },
     "83": {
         "name": "Power Plant",
         "symbol": "POWER_PLANT",
         "music_id": "MUSIC_DUNGEON1",
-        "track": "music/Pokemon Yellow (MP3).zophar/37 Team Rocket Hideout.mp3"
+        "track": "37 Rocket Hideout.mp3"
     },
     "84": {
         "name": "Route 11 Gate 1F",
         "symbol": "ROUTE_11_GATE_1F",
         "music_id": "MUSIC_VERMILION",
-        "track": "music/Pokemon Yellow (MP3).zophar/11 Vermilion City's Theme.mp3"
+        "track": "29 Vermilion City.mp3"
     },
     "85": {
         "name": "Digletts Cave Route 11",
         "symbol": "DIGLETTS_CAVE_ROUTE_11",
         "music_id": "MUSIC_DUNGEON2",
-        "track": "music/Pokemon Yellow (MP3).zophar/38 Viridian Forest.mp3"
+        "track": "16 Viridian Forest.mp3"
     },
     "86": {
         "name": "Route 11 Gate 2F",
         "symbol": "ROUTE_11_GATE_2F",
         "music_id": "MUSIC_VERMILION",
-        "track": "music/Pokemon Yellow (MP3).zophar/11 Vermilion City's Theme.mp3"
+        "track": "29 Vermilion City.mp3"
     },
     "87": {
         "name": "Route 12 Gate 1F",
         "symbol": "ROUTE_12_GATE_1F",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "88": {
         "name": "Bills House",
         "symbol": "BILLS_HOUSE",
         "music_id": "MUSIC_CITIES2",
-        "track": "music/Pokemon Yellow (MP3).zophar/08 Cerulean City's Theme.mp3"
+        "track": "26 Cerulean City.mp3"
     },
     "89": {
         "name": "Vermilion Pokecenter",
         "symbol": "VERMILION_POKECENTER",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "90": {
         "name": "Pokemon Fan Club",
         "symbol": "POKEMON_FAN_CLUB",
         "music_id": "MUSIC_VERMILION",
-        "track": "music/Pokemon Yellow (MP3).zophar/11 Vermilion City's Theme.mp3"
+        "track": "29 Vermilion City.mp3"
     },
     "91": {
         "name": "Vermilion Mart",
         "symbol": "VERMILION_MART",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "92": {
         "name": "Vermilion Gym",
         "symbol": "VERMILION_GYM",
         "music_id": "MUSIC_GYM",
-        "track": "music/Pokemon Yellow (MP3).zophar/06 Pokemon Gym.mp3"
+        "track": "19 Pokemon Gym.mp3"
     },
     "93": {
         "name": "Vermilion Pidgey House",
         "symbol": "VERMILION_PIDGEY_HOUSE",
         "music_id": "MUSIC_VERMILION",
-        "track": "music/Pokemon Yellow (MP3).zophar/11 Vermilion City's Theme.mp3"
+        "track": "29 Vermilion City.mp3"
     },
     "94": {
         "name": "Vermilion Dock",
         "symbol": "VERMILION_DOCK",
         "music_id": "MUSIC_SS_ANNE",
-        "track": "music/Pokemon Yellow (MP3).zophar/13 St. Anne.mp3"
+        "track": "30 The S.S. Anne.mp3"
     },
     "95": {
         "name": "Ss Anne 1F",
         "symbol": "SS_ANNE_1F",
         "music_id": "MUSIC_SS_ANNE",
-        "track": "music/Pokemon Yellow (MP3).zophar/13 St. Anne.mp3"
+        "track": "30 The S.S. Anne.mp3"
     },
     "96": {
         "name": "Ss Anne 2F",
         "symbol": "SS_ANNE_2F",
         "music_id": "MUSIC_SS_ANNE",
-        "track": "music/Pokemon Yellow (MP3).zophar/13 St. Anne.mp3"
+        "track": "30 The S.S. Anne.mp3"
     },
     "97": {
         "name": "Ss Anne 3F",
         "symbol": "SS_ANNE_3F",
         "music_id": "MUSIC_SS_ANNE",
-        "track": "music/Pokemon Yellow (MP3).zophar/13 St. Anne.mp3"
+        "track": "30 The S.S. Anne.mp3"
     },
     "98": {
         "name": "Ss Anne B1F",
         "symbol": "SS_ANNE_B1F",
         "music_id": "MUSIC_SS_ANNE",
-        "track": "music/Pokemon Yellow (MP3).zophar/13 St. Anne.mp3"
+        "track": "30 The S.S. Anne.mp3"
     },
     "99": {
         "name": "Ss Anne Bow",
         "symbol": "SS_ANNE_BOW",
         "music_id": "MUSIC_SS_ANNE",
-        "track": "music/Pokemon Yellow (MP3).zophar/13 St. Anne.mp3"
+        "track": "30 The S.S. Anne.mp3"
     },
     "100": {
         "name": "Ss Anne Kitchen",
         "symbol": "SS_ANNE_KITCHEN",
         "music_id": "MUSIC_SS_ANNE",
-        "track": "music/Pokemon Yellow (MP3).zophar/13 St. Anne.mp3"
+        "track": "30 The S.S. Anne.mp3"
     },
     "101": {
         "name": "Ss Anne Captains Room",
         "symbol": "SS_ANNE_CAPTAINS_ROOM",
         "music_id": "MUSIC_SS_ANNE",
-        "track": "music/Pokemon Yellow (MP3).zophar/13 St. Anne.mp3"
+        "track": "30 The S.S. Anne.mp3"
     },
     "102": {
         "name": "Ss Anne 1F Rooms",
         "symbol": "SS_ANNE_1F_ROOMS",
         "music_id": "MUSIC_SS_ANNE",
-        "track": "music/Pokemon Yellow (MP3).zophar/13 St. Anne.mp3"
+        "track": "30 The S.S. Anne.mp3"
     },
     "103": {
         "name": "Ss Anne 2F Rooms",
         "symbol": "SS_ANNE_2F_ROOMS",
         "music_id": "MUSIC_SS_ANNE",
-        "track": "music/Pokemon Yellow (MP3).zophar/13 St. Anne.mp3"
+        "track": "30 The S.S. Anne.mp3"
     },
     "104": {
         "name": "Ss Anne B1F Rooms",
         "symbol": "SS_ANNE_B1F_ROOMS",
         "music_id": "MUSIC_SS_ANNE",
-        "track": "music/Pokemon Yellow (MP3).zophar/13 St. Anne.mp3"
+        "track": "30 The S.S. Anne.mp3"
     },
     "105": {
         "name": "Unused Map 69",
         "symbol": "UNUSED_MAP_69",
         "music_id": "MUSIC_DUNGEON2",
-        "track": "music/Pokemon Yellow (MP3).zophar/38 Viridian Forest.mp3"
+        "track": "16 Viridian Forest.mp3"
     },
     "106": {
         "name": "Unused Map 6A",
         "symbol": "UNUSED_MAP_6A",
         "music_id": "MUSIC_DUNGEON2",
-        "track": "music/Pokemon Yellow (MP3).zophar/38 Viridian Forest.mp3"
+        "track": "16 Viridian Forest.mp3"
     },
     "107": {
         "name": "Unused Map 6B",
         "symbol": "UNUSED_MAP_6B",
         "music_id": "MUSIC_SS_ANNE",
-        "track": "music/Pokemon Yellow (MP3).zophar/13 St. Anne.mp3"
+        "track": "30 The S.S. Anne.mp3"
     },
     "108": {
         "name": "Victory Road 1F",
         "symbol": "VICTORY_ROAD_1F",
         "music_id": "MUSIC_DUNGEON3",
-        "track": "music/Pokemon Yellow (MP3).zophar/39 Mt. Moon Cave.mp3"
+        "track": "24 Caves of Mt. Moon.mp3"
     },
     "109": {
         "name": "Unused Map 6D",
         "symbol": "UNUSED_MAP_6D",
         "music_id": "MUSIC_POKEMON_TOWER",
-        "track": "music/Pokemon Yellow (MP3).zophar/41 Pokemon Tower.mp3"
+        "track": "34 Pokemon Tower.mp3"
     },
     "110": {
         "name": "Unused Map 6E",
         "symbol": "UNUSED_MAP_6E",
         "music_id": "MUSIC_DUNGEON1",
-        "track": "music/Pokemon Yellow (MP3).zophar/37 Team Rocket Hideout.mp3"
+        "track": "37 Rocket Hideout.mp3"
     },
     "111": {
         "name": "Unused Map 6F",
         "symbol": "UNUSED_MAP_6F",
         "music_id": "MUSIC_SILPH_CO",
-        "track": "music/Pokemon Yellow (MP3).zophar/42 Sylph Company.mp3"
+        "track": "40 Silph Co.mp3"
     },
     "112": {
         "name": "Unused Map 70",
         "symbol": "UNUSED_MAP_70",
         "music_id": "MUSIC_SILPH_CO",
-        "track": "music/Pokemon Yellow (MP3).zophar/42 Sylph Company.mp3"
+        "track": "40 Silph Co.mp3"
     },
     "113": {
         "name": "Lances Room",
         "symbol": "LANCES_ROOM",
         "music_id": "MUSIC_INDIGO_PLATEAU",
-        "track": "music/Pokemon Yellow (MP3).zophar/31 Into the Hall.mp3"
+        "track": "44 The Final Road.mp3"
     },
     "114": {
         "name": "Unused Map 72",
         "symbol": "UNUSED_MAP_72",
         "music_id": "MUSIC_SS_ANNE",
-        "track": "music/Pokemon Yellow (MP3).zophar/13 St. Anne.mp3"
+        "track": "30 The S.S. Anne.mp3"
     },
     "115": {
         "name": "Unused Map 73",
         "symbol": "UNUSED_MAP_73",
         "music_id": "MUSIC_SS_ANNE",
-        "track": "music/Pokemon Yellow (MP3).zophar/13 St. Anne.mp3"
+        "track": "30 The S.S. Anne.mp3"
     },
     "116": {
         "name": "Unused Map 74",
         "symbol": "UNUSED_MAP_74",
         "music_id": "MUSIC_SS_ANNE",
-        "track": "music/Pokemon Yellow (MP3).zophar/13 St. Anne.mp3"
+        "track": "30 The S.S. Anne.mp3"
     },
     "117": {
         "name": "Unused Map 75",
         "symbol": "UNUSED_MAP_75",
         "music_id": "MUSIC_SS_ANNE",
-        "track": "music/Pokemon Yellow (MP3).zophar/13 St. Anne.mp3"
+        "track": "30 The S.S. Anne.mp3"
     },
     "118": {
         "name": "Hall Of Fame",
         "symbol": "HALL_OF_FAME",
         "music_id": "MUSIC_PALLET_TOWN",
-        "track": "music/Pokemon Yellow (MP3).zophar/04 Pallet Town's Theme.mp3"
+        "track": "05 Pallet Town.mp3"
     },
     "119": {
         "name": "Underground Path North South",
         "symbol": "UNDERGROUND_PATH_NORTH_SOUTH",
         "music_id": "MUSIC_ROUTES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/19 The Road to Viridian City ~ from Pallet.mp3"
+        "track": "11 Road to Viridian City (Leaving Pallet Town).mp3"
     },
     "120": {
         "name": "Champions Room",
         "symbol": "CHAMPIONS_ROOM",
         "music_id": "MUSIC_INDIGO_PLATEAU",
-        "track": "music/Pokemon Yellow (MP3).zophar/31 Into the Hall.mp3"
+        "track": "44 The Final Road.mp3"
     },
     "121": {
         "name": "Underground Path West East",
         "symbol": "UNDERGROUND_PATH_WEST_EAST",
         "music_id": "MUSIC_ROUTES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/19 The Road to Viridian City ~ from Pallet.mp3"
+        "track": "11 Road to Viridian City (Leaving Pallet Town).mp3"
     },
     "122": {
         "name": "Celadon Mart 1F",
         "symbol": "CELADON_MART_1F",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "123": {
         "name": "Celadon Mart 2F",
         "symbol": "CELADON_MART_2F",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "124": {
         "name": "Celadon Mart 3F",
         "symbol": "CELADON_MART_3F",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "125": {
         "name": "Celadon Mart 4F",
         "symbol": "CELADON_MART_4F",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "126": {
         "name": "Celadon Mart Roof",
         "symbol": "CELADON_MART_ROOF",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "127": {
         "name": "Celadon Mart Elevator",
         "symbol": "CELADON_MART_ELEVATOR",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "128": {
         "name": "Celadon Mansion 1F",
         "symbol": "CELADON_MANSION_1F",
         "music_id": "MUSIC_CELADON",
-        "track": "music/Pokemon Yellow (MP3).zophar/09 Celadon City's Theme.mp3"
+        "track": "35 Celadon City.mp3"
     },
     "129": {
         "name": "Celadon Mansion 2F",
         "symbol": "CELADON_MANSION_2F",
         "music_id": "MUSIC_CELADON",
-        "track": "music/Pokemon Yellow (MP3).zophar/09 Celadon City's Theme.mp3"
+        "track": "35 Celadon City.mp3"
     },
     "130": {
         "name": "Celadon Mansion 3F",
         "symbol": "CELADON_MANSION_3F",
         "music_id": "MUSIC_CELADON",
-        "track": "music/Pokemon Yellow (MP3).zophar/09 Celadon City's Theme.mp3"
+        "track": "35 Celadon City.mp3"
     },
     "131": {
         "name": "Celadon Mansion Roof",
         "symbol": "CELADON_MANSION_ROOF",
         "music_id": "MUSIC_CELADON",
-        "track": "music/Pokemon Yellow (MP3).zophar/09 Celadon City's Theme.mp3"
+        "track": "35 Celadon City.mp3"
     },
     "132": {
         "name": "Celadon Mansion Roof House",
         "symbol": "CELADON_MANSION_ROOF_HOUSE",
         "music_id": "MUSIC_CELADON",
-        "track": "music/Pokemon Yellow (MP3).zophar/09 Celadon City's Theme.mp3"
+        "track": "35 Celadon City.mp3"
     },
     "133": {
         "name": "Celadon Pokecenter",
         "symbol": "CELADON_POKECENTER",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "134": {
         "name": "Celadon Gym",
         "symbol": "CELADON_GYM",
         "music_id": "MUSIC_GYM",
-        "track": "music/Pokemon Yellow (MP3).zophar/06 Pokemon Gym.mp3"
+        "track": "19 Pokemon Gym.mp3"
     },
     "135": {
         "name": "Game Corner",
         "symbol": "GAME_CORNER",
         "music_id": "MUSIC_GAME_CORNER",
-        "track": "music/Pokemon Yellow (MP3).zophar/36 Casino.mp3"
+        "track": "36 Rocket Game Corner.mp3"
     },
     "136": {
         "name": "Celadon Mart 5F",
         "symbol": "CELADON_MART_5F",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "137": {
         "name": "Game Corner Prize Room",
         "symbol": "GAME_CORNER_PRIZE_ROOM",
         "music_id": "MUSIC_CELADON",
-        "track": "music/Pokemon Yellow (MP3).zophar/09 Celadon City's Theme.mp3"
+        "track": "35 Celadon City.mp3"
     },
     "138": {
         "name": "Celadon Diner",
         "symbol": "CELADON_DINER",
         "music_id": "MUSIC_CELADON",
-        "track": "music/Pokemon Yellow (MP3).zophar/09 Celadon City's Theme.mp3"
+        "track": "35 Celadon City.mp3"
     },
     "139": {
         "name": "Celadon Chief House",
         "symbol": "CELADON_CHIEF_HOUSE",
         "music_id": "MUSIC_CELADON",
-        "track": "music/Pokemon Yellow (MP3).zophar/09 Celadon City's Theme.mp3"
+        "track": "35 Celadon City.mp3"
     },
     "140": {
         "name": "Celadon Hotel",
         "symbol": "CELADON_HOTEL",
         "music_id": "MUSIC_CELADON",
-        "track": "music/Pokemon Yellow (MP3).zophar/09 Celadon City's Theme.mp3"
+        "track": "35 Celadon City.mp3"
     },
     "141": {
         "name": "Lavender Pokecenter",
         "symbol": "LAVENDER_POKECENTER",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "142": {
         "name": "Pokemon Tower 1F",
         "symbol": "POKEMON_TOWER_1F",
         "music_id": "MUSIC_POKEMON_TOWER",
-        "track": "music/Pokemon Yellow (MP3).zophar/41 Pokemon Tower.mp3"
+        "track": "34 Pokemon Tower.mp3"
     },
     "143": {
         "name": "Pokemon Tower 2F",
         "symbol": "POKEMON_TOWER_2F",
         "music_id": "MUSIC_POKEMON_TOWER",
-        "track": "music/Pokemon Yellow (MP3).zophar/41 Pokemon Tower.mp3"
+        "track": "34 Pokemon Tower.mp3"
     },
     "144": {
         "name": "Pokemon Tower 3F",
         "symbol": "POKEMON_TOWER_3F",
         "music_id": "MUSIC_POKEMON_TOWER",
-        "track": "music/Pokemon Yellow (MP3).zophar/41 Pokemon Tower.mp3"
+        "track": "34 Pokemon Tower.mp3"
     },
     "145": {
         "name": "Pokemon Tower 4F",
         "symbol": "POKEMON_TOWER_4F",
         "music_id": "MUSIC_POKEMON_TOWER",
-        "track": "music/Pokemon Yellow (MP3).zophar/41 Pokemon Tower.mp3"
+        "track": "34 Pokemon Tower.mp3"
     },
     "146": {
         "name": "Pokemon Tower 5F",
         "symbol": "POKEMON_TOWER_5F",
         "music_id": "MUSIC_POKEMON_TOWER",
-        "track": "music/Pokemon Yellow (MP3).zophar/41 Pokemon Tower.mp3"
+        "track": "34 Pokemon Tower.mp3"
     },
     "147": {
         "name": "Pokemon Tower 6F",
         "symbol": "POKEMON_TOWER_6F",
         "music_id": "MUSIC_POKEMON_TOWER",
-        "track": "music/Pokemon Yellow (MP3).zophar/41 Pokemon Tower.mp3"
+        "track": "34 Pokemon Tower.mp3"
     },
     "148": {
         "name": "Pokemon Tower 7F",
         "symbol": "POKEMON_TOWER_7F",
         "music_id": "MUSIC_POKEMON_TOWER",
-        "track": "music/Pokemon Yellow (MP3).zophar/41 Pokemon Tower.mp3"
+        "track": "34 Pokemon Tower.mp3"
     },
     "149": {
         "name": "Mr Fujis House",
         "symbol": "MR_FUJIS_HOUSE",
         "music_id": "MUSIC_LAVENDER",
-        "track": "music/Pokemon Yellow (MP3).zophar/12 Lavender Town's Theme.mp3"
+        "track": "33 Lavender Town.mp3"
     },
     "150": {
         "name": "Lavender Mart",
         "symbol": "LAVENDER_MART",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "151": {
         "name": "Lavender Cubone House",
         "symbol": "LAVENDER_CUBONE_HOUSE",
         "music_id": "MUSIC_LAVENDER",
-        "track": "music/Pokemon Yellow (MP3).zophar/12 Lavender Town's Theme.mp3"
+        "track": "33 Lavender Town.mp3"
     },
     "152": {
         "name": "Fuchsia Mart",
         "symbol": "FUCHSIA_MART",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "153": {
         "name": "Fuchsia Bills Grandpas House",
         "symbol": "FUCHSIA_BILLS_GRANDPAS_HOUSE",
         "music_id": "MUSIC_CITIES2",
-        "track": "music/Pokemon Yellow (MP3).zophar/08 Cerulean City's Theme.mp3"
+        "track": "26 Cerulean City.mp3"
     },
     "154": {
         "name": "Fuchsia Pokecenter",
         "symbol": "FUCHSIA_POKECENTER",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "155": {
         "name": "Wardens House",
         "symbol": "WARDENS_HOUSE",
         "music_id": "MUSIC_CITIES2",
-        "track": "music/Pokemon Yellow (MP3).zophar/08 Cerulean City's Theme.mp3"
+        "track": "26 Cerulean City.mp3"
     },
     "156": {
         "name": "Safari Zone Gate",
         "symbol": "SAFARI_ZONE_GATE",
         "music_id": "MUSIC_CITIES2",
-        "track": "music/Pokemon Yellow (MP3).zophar/08 Cerulean City's Theme.mp3"
+        "track": "26 Cerulean City.mp3"
     },
     "157": {
         "name": "Fuchsia Gym",
         "symbol": "FUCHSIA_GYM",
         "music_id": "MUSIC_GYM",
-        "track": "music/Pokemon Yellow (MP3).zophar/06 Pokemon Gym.mp3"
+        "track": "19 Pokemon Gym.mp3"
     },
     "158": {
         "name": "Fuchsia Meeting Room",
         "symbol": "FUCHSIA_MEETING_ROOM",
         "music_id": "MUSIC_CITIES2",
-        "track": "music/Pokemon Yellow (MP3).zophar/08 Cerulean City's Theme.mp3"
+        "track": "26 Cerulean City.mp3"
     },
     "159": {
         "name": "Seafoam Islands B1F",
         "symbol": "SEAFOAM_ISLANDS_B1F",
         "music_id": "MUSIC_DUNGEON2",
-        "track": "music/Pokemon Yellow (MP3).zophar/38 Viridian Forest.mp3"
+        "track": "16 Viridian Forest.mp3"
     },
     "160": {
         "name": "Seafoam Islands B2F",
         "symbol": "SEAFOAM_ISLANDS_B2F",
         "music_id": "MUSIC_DUNGEON2",
-        "track": "music/Pokemon Yellow (MP3).zophar/38 Viridian Forest.mp3"
+        "track": "16 Viridian Forest.mp3"
     },
     "161": {
         "name": "Seafoam Islands B3F",
         "symbol": "SEAFOAM_ISLANDS_B3F",
         "music_id": "MUSIC_DUNGEON2",
-        "track": "music/Pokemon Yellow (MP3).zophar/38 Viridian Forest.mp3"
+        "track": "16 Viridian Forest.mp3"
     },
     "162": {
         "name": "Seafoam Islands B4F",
         "symbol": "SEAFOAM_ISLANDS_B4F",
         "music_id": "MUSIC_DUNGEON2",
-        "track": "music/Pokemon Yellow (MP3).zophar/38 Viridian Forest.mp3"
+        "track": "16 Viridian Forest.mp3"
     },
     "163": {
         "name": "Vermilion Old Rod House",
         "symbol": "VERMILION_OLD_ROD_HOUSE",
         "music_id": "MUSIC_CITIES2",
-        "track": "music/Pokemon Yellow (MP3).zophar/08 Cerulean City's Theme.mp3"
+        "track": "26 Cerulean City.mp3"
     },
     "164": {
         "name": "Fuchsia Good Rod House",
         "symbol": "FUCHSIA_GOOD_ROD_HOUSE",
         "music_id": "MUSIC_CITIES2",
-        "track": "music/Pokemon Yellow (MP3).zophar/08 Cerulean City's Theme.mp3"
+        "track": "26 Cerulean City.mp3"
     },
     "165": {
         "name": "Pokemon Mansion 1F",
         "symbol": "POKEMON_MANSION_1F",
         "music_id": "MUSIC_CINNABAR_MANSION",
-        "track": "music/Pokemon Yellow (MP3).zophar/40 Pokemon Mansion.mp3"
+        "track": "43 Pokemon Mansion.mp3"
     },
     "166": {
         "name": "Cinnabar Gym",
         "symbol": "CINNABAR_GYM",
         "music_id": "MUSIC_GYM",
-        "track": "music/Pokemon Yellow (MP3).zophar/06 Pokemon Gym.mp3"
+        "track": "19 Pokemon Gym.mp3"
     },
     "167": {
         "name": "Cinnabar Lab",
         "symbol": "CINNABAR_LAB",
         "music_id": "MUSIC_CINNABAR",
-        "track": "music/Pokemon Yellow (MP3).zophar/10 Cinnabar Island's Theme.mp3"
+        "track": "42 Cinnabar Island.mp3"
     },
     "168": {
         "name": "Cinnabar Lab Trade Room",
         "symbol": "CINNABAR_LAB_TRADE_ROOM",
         "music_id": "MUSIC_CINNABAR",
-        "track": "music/Pokemon Yellow (MP3).zophar/10 Cinnabar Island's Theme.mp3"
+        "track": "42 Cinnabar Island.mp3"
     },
     "169": {
         "name": "Cinnabar Lab Metronome Room",
         "symbol": "CINNABAR_LAB_METRONOME_ROOM",
         "music_id": "MUSIC_CINNABAR",
-        "track": "music/Pokemon Yellow (MP3).zophar/10 Cinnabar Island's Theme.mp3"
+        "track": "42 Cinnabar Island.mp3"
     },
     "170": {
         "name": "Cinnabar Lab Fossil Room",
         "symbol": "CINNABAR_LAB_FOSSIL_ROOM",
         "music_id": "MUSIC_CINNABAR",
-        "track": "music/Pokemon Yellow (MP3).zophar/10 Cinnabar Island's Theme.mp3"
+        "track": "42 Cinnabar Island.mp3"
     },
     "171": {
         "name": "Cinnabar Pokecenter",
         "symbol": "CINNABAR_POKECENTER",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "172": {
         "name": "Cinnabar Mart",
         "symbol": "CINNABAR_MART",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "173": {
         "name": "Cinnabar Mart Copy",
         "symbol": "CINNABAR_MART_COPY",
         "music_id": "MUSIC_CINNABAR",
-        "track": "music/Pokemon Yellow (MP3).zophar/10 Cinnabar Island's Theme.mp3"
+        "track": "42 Cinnabar Island.mp3"
     },
     "174": {
         "name": "Indigo Plateau Lobby",
         "symbol": "INDIGO_PLATEAU_LOBBY",
         "music_id": "MUSIC_INDIGO_PLATEAU",
-        "track": "music/Pokemon Yellow (MP3).zophar/31 Into the Hall.mp3"
+        "track": "44 The Final Road.mp3"
     },
     "175": {
         "name": "Copycats House 1F",
         "symbol": "COPYCATS_HOUSE_1F",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "176": {
         "name": "Copycats House 2F",
         "symbol": "COPYCATS_HOUSE_2F",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "177": {
         "name": "Fighting Dojo",
         "symbol": "FIGHTING_DOJO",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "178": {
         "name": "Saffron Gym",
         "symbol": "SAFFRON_GYM",
         "music_id": "MUSIC_GYM",
-        "track": "music/Pokemon Yellow (MP3).zophar/06 Pokemon Gym.mp3"
+        "track": "19 Pokemon Gym.mp3"
     },
     "179": {
         "name": "Saffron Pidgey House",
         "symbol": "SAFFRON_PIDGEY_HOUSE",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "180": {
         "name": "Saffron Mart",
         "symbol": "SAFFRON_MART",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "181": {
         "name": "Silph Co 1F",
         "symbol": "SILPH_CO_1F",
         "music_id": "MUSIC_SILPH_CO",
-        "track": "music/Pokemon Yellow (MP3).zophar/42 Sylph Company.mp3"
+        "track": "40 Silph Co.mp3"
     },
     "182": {
         "name": "Saffron Pokecenter",
         "symbol": "SAFFRON_POKECENTER",
         "music_id": "MUSIC_POKECENTER",
-        "track": "music/Pokemon Yellow (MP3).zophar/05 Pokemon Center.mp3"
+        "track": "15 Pokemon Center.mp3"
     },
     "183": {
         "name": "Mr Psychics House",
         "symbol": "MR_PSYCHICS_HOUSE",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "184": {
         "name": "Route 15 Gate 1F",
         "symbol": "ROUTE_15_GATE_1F",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "185": {
         "name": "Route 15 Gate 2F",
         "symbol": "ROUTE_15_GATE_2F",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "186": {
         "name": "Route 16 Gate 1F",
         "symbol": "ROUTE_16_GATE_1F",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "187": {
         "name": "Route 16 Gate 2F",
         "symbol": "ROUTE_16_GATE_2F",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "188": {
         "name": "Route 16 Fly House",
         "symbol": "ROUTE_16_FLY_HOUSE",
         "music_id": "MUSIC_CELADON",
-        "track": "music/Pokemon Yellow (MP3).zophar/09 Celadon City's Theme.mp3"
+        "track": "35 Celadon City.mp3"
     },
     "189": {
         "name": "Route 12 Super Rod House",
         "symbol": "ROUTE_12_SUPER_ROD_HOUSE",
         "music_id": "MUSIC_CELADON",
-        "track": "music/Pokemon Yellow (MP3).zophar/09 Celadon City's Theme.mp3"
+        "track": "35 Celadon City.mp3"
     },
     "190": {
         "name": "Route 18 Gate 1F",
         "symbol": "ROUTE_18_GATE_1F",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "191": {
         "name": "Route 18 Gate 2F",
         "symbol": "ROUTE_18_GATE_2F",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "192": {
         "name": "Seafoam Islands 1F",
         "symbol": "SEAFOAM_ISLANDS_1F",
         "music_id": "MUSIC_DUNGEON2",
-        "track": "music/Pokemon Yellow (MP3).zophar/38 Viridian Forest.mp3"
+        "track": "16 Viridian Forest.mp3"
     },
     "193": {
         "name": "Route 22 Gate",
         "symbol": "ROUTE_22_GATE",
         "music_id": "MUSIC_DUNGEON2",
-        "track": "music/Pokemon Yellow (MP3).zophar/38 Viridian Forest.mp3"
+        "track": "16 Viridian Forest.mp3"
     },
     "194": {
         "name": "Victory Road 2F",
         "symbol": "VICTORY_ROAD_2F",
         "music_id": "MUSIC_DUNGEON3",
-        "track": "music/Pokemon Yellow (MP3).zophar/39 Mt. Moon Cave.mp3"
+        "track": "24 Caves of Mt. Moon.mp3"
     },
     "195": {
         "name": "Route 12 Gate 2F",
         "symbol": "ROUTE_12_GATE_2F",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "196": {
         "name": "Vermilion Trade House",
         "symbol": "VERMILION_TRADE_HOUSE",
         "music_id": "MUSIC_VERMILION",
-        "track": "music/Pokemon Yellow (MP3).zophar/11 Vermilion City's Theme.mp3"
+        "track": "29 Vermilion City.mp3"
     },
     "197": {
         "name": "Digletts Cave",
         "symbol": "DIGLETTS_CAVE",
         "music_id": "MUSIC_DUNGEON2",
-        "track": "music/Pokemon Yellow (MP3).zophar/38 Viridian Forest.mp3"
+        "track": "16 Viridian Forest.mp3"
     },
     "198": {
         "name": "Victory Road 3F",
         "symbol": "VICTORY_ROAD_3F",
         "music_id": "MUSIC_DUNGEON3",
-        "track": "music/Pokemon Yellow (MP3).zophar/39 Mt. Moon Cave.mp3"
+        "track": "24 Caves of Mt. Moon.mp3"
     },
     "199": {
         "name": "Rocket Hideout B1F",
         "symbol": "ROCKET_HIDEOUT_B1F",
         "music_id": "MUSIC_DUNGEON1",
-        "track": "music/Pokemon Yellow (MP3).zophar/37 Team Rocket Hideout.mp3"
+        "track": "37 Rocket Hideout.mp3"
     },
     "200": {
         "name": "Rocket Hideout B2F",
         "symbol": "ROCKET_HIDEOUT_B2F",
         "music_id": "MUSIC_DUNGEON1",
-        "track": "music/Pokemon Yellow (MP3).zophar/37 Team Rocket Hideout.mp3"
+        "track": "37 Rocket Hideout.mp3"
     },
     "201": {
         "name": "Rocket Hideout B3F",
         "symbol": "ROCKET_HIDEOUT_B3F",
         "music_id": "MUSIC_DUNGEON1",
-        "track": "music/Pokemon Yellow (MP3).zophar/37 Team Rocket Hideout.mp3"
+        "track": "37 Rocket Hideout.mp3"
     },
     "202": {
         "name": "Rocket Hideout B4F",
         "symbol": "ROCKET_HIDEOUT_B4F",
         "music_id": "MUSIC_DUNGEON1",
-        "track": "music/Pokemon Yellow (MP3).zophar/37 Team Rocket Hideout.mp3"
+        "track": "37 Rocket Hideout.mp3"
     },
     "203": {
         "name": "Rocket Hideout Elevator",
         "symbol": "ROCKET_HIDEOUT_ELEVATOR",
         "music_id": "MUSIC_DUNGEON1",
-        "track": "music/Pokemon Yellow (MP3).zophar/37 Team Rocket Hideout.mp3"
+        "track": "37 Rocket Hideout.mp3"
     },
     "204": {
         "name": "Unused Map Cc",
         "symbol": "UNUSED_MAP_CC",
         "music_id": "MUSIC_DUNGEON1",
-        "track": "music/Pokemon Yellow (MP3).zophar/37 Team Rocket Hideout.mp3"
+        "track": "37 Rocket Hideout.mp3"
     },
     "205": {
         "name": "Unused Map Cd",
         "symbol": "UNUSED_MAP_CD",
         "music_id": "MUSIC_DUNGEON1",
-        "track": "music/Pokemon Yellow (MP3).zophar/37 Team Rocket Hideout.mp3"
+        "track": "37 Rocket Hideout.mp3"
     },
     "206": {
         "name": "Unused Map Ce",
         "symbol": "UNUSED_MAP_CE",
         "music_id": "MUSIC_DUNGEON1",
-        "track": "music/Pokemon Yellow (MP3).zophar/37 Team Rocket Hideout.mp3"
+        "track": "37 Rocket Hideout.mp3"
     },
     "207": {
         "name": "Silph Co 2F",
         "symbol": "SILPH_CO_2F",
         "music_id": "MUSIC_SILPH_CO",
-        "track": "music/Pokemon Yellow (MP3).zophar/42 Sylph Company.mp3"
+        "track": "40 Silph Co.mp3"
     },
     "208": {
         "name": "Silph Co 3F",
         "symbol": "SILPH_CO_3F",
         "music_id": "MUSIC_SILPH_CO",
-        "track": "music/Pokemon Yellow (MP3).zophar/42 Sylph Company.mp3"
+        "track": "40 Silph Co.mp3"
     },
     "209": {
         "name": "Silph Co 4F",
         "symbol": "SILPH_CO_4F",
         "music_id": "MUSIC_SILPH_CO",
-        "track": "music/Pokemon Yellow (MP3).zophar/42 Sylph Company.mp3"
+        "track": "40 Silph Co.mp3"
     },
     "210": {
         "name": "Silph Co 5F",
         "symbol": "SILPH_CO_5F",
         "music_id": "MUSIC_SILPH_CO",
-        "track": "music/Pokemon Yellow (MP3).zophar/42 Sylph Company.mp3"
+        "track": "40 Silph Co.mp3"
     },
     "211": {
         "name": "Silph Co 6F",
         "symbol": "SILPH_CO_6F",
         "music_id": "MUSIC_SILPH_CO",
-        "track": "music/Pokemon Yellow (MP3).zophar/42 Sylph Company.mp3"
+        "track": "40 Silph Co.mp3"
     },
     "212": {
         "name": "Silph Co 7F",
         "symbol": "SILPH_CO_7F",
         "music_id": "MUSIC_SILPH_CO",
-        "track": "music/Pokemon Yellow (MP3).zophar/42 Sylph Company.mp3"
+        "track": "40 Silph Co.mp3"
     },
     "213": {
         "name": "Silph Co 8F",
         "symbol": "SILPH_CO_8F",
         "music_id": "MUSIC_SILPH_CO",
-        "track": "music/Pokemon Yellow (MP3).zophar/42 Sylph Company.mp3"
+        "track": "40 Silph Co.mp3"
     },
     "214": {
         "name": "Pokemon Mansion 2F",
         "symbol": "POKEMON_MANSION_2F",
         "music_id": "MUSIC_CINNABAR_MANSION",
-        "track": "music/Pokemon Yellow (MP3).zophar/40 Pokemon Mansion.mp3"
+        "track": "43 Pokemon Mansion.mp3"
     },
     "215": {
         "name": "Pokemon Mansion 3F",
         "symbol": "POKEMON_MANSION_3F",
         "music_id": "MUSIC_CINNABAR_MANSION",
-        "track": "music/Pokemon Yellow (MP3).zophar/40 Pokemon Mansion.mp3"
+        "track": "43 Pokemon Mansion.mp3"
     },
     "216": {
         "name": "Pokemon Mansion B1F",
         "symbol": "POKEMON_MANSION_B1F",
         "music_id": "MUSIC_CINNABAR_MANSION",
-        "track": "music/Pokemon Yellow (MP3).zophar/40 Pokemon Mansion.mp3"
+        "track": "43 Pokemon Mansion.mp3"
     },
     "217": {
         "name": "Safari Zone East",
@@ -1359,138 +1359,138 @@
         "name": "Cerulean Cave 2F",
         "symbol": "CERULEAN_CAVE_2F",
         "music_id": "MUSIC_DUNGEON1",
-        "track": "music/Pokemon Yellow (MP3).zophar/37 Team Rocket Hideout.mp3"
+        "track": "37 Rocket Hideout.mp3"
     },
     "227": {
         "name": "Cerulean Cave B1F",
         "symbol": "CERULEAN_CAVE_B1F",
         "music_id": "MUSIC_DUNGEON1",
-        "track": "music/Pokemon Yellow (MP3).zophar/37 Team Rocket Hideout.mp3"
+        "track": "37 Rocket Hideout.mp3"
     },
     "228": {
         "name": "Cerulean Cave 1F",
         "symbol": "CERULEAN_CAVE_1F",
         "music_id": "MUSIC_DUNGEON1",
-        "track": "music/Pokemon Yellow (MP3).zophar/37 Team Rocket Hideout.mp3"
+        "track": "37 Rocket Hideout.mp3"
     },
     "229": {
         "name": "Name Raters House",
         "symbol": "NAME_RATERS_HOUSE",
         "music_id": "MUSIC_CITIES2",
-        "track": "music/Pokemon Yellow (MP3).zophar/08 Cerulean City's Theme.mp3"
+        "track": "26 Cerulean City.mp3"
     },
     "230": {
         "name": "Cerulean Badge House",
         "symbol": "CERULEAN_BADGE_HOUSE",
         "music_id": "MUSIC_CITIES1",
-        "track": "music/Pokemon Yellow (MP3).zophar/07 Pewter City's Theme.mp3"
+        "track": "14 Pewter City.mp3"
     },
     "231": {
         "name": "Unused Map E7",
         "symbol": "UNUSED_MAP_E7",
         "music_id": "MUSIC_CINNABAR",
-        "track": "music/Pokemon Yellow (MP3).zophar/10 Cinnabar Island's Theme.mp3"
+        "track": "42 Cinnabar Island.mp3"
     },
     "232": {
         "name": "Rock Tunnel B1F",
         "symbol": "ROCK_TUNNEL_B1F",
         "music_id": "MUSIC_DUNGEON3",
-        "track": "music/Pokemon Yellow (MP3).zophar/39 Mt. Moon Cave.mp3"
+        "track": "24 Caves of Mt. Moon.mp3"
     },
     "233": {
         "name": "Silph Co 9F",
         "symbol": "SILPH_CO_9F",
         "music_id": "MUSIC_SILPH_CO",
-        "track": "music/Pokemon Yellow (MP3).zophar/42 Sylph Company.mp3"
+        "track": "40 Silph Co.mp3"
     },
     "234": {
         "name": "Silph Co 10F",
         "symbol": "SILPH_CO_10F",
         "music_id": "MUSIC_SILPH_CO",
-        "track": "music/Pokemon Yellow (MP3).zophar/42 Sylph Company.mp3"
+        "track": "40 Silph Co.mp3"
     },
     "235": {
         "name": "Silph Co 11F",
         "symbol": "SILPH_CO_11F",
         "music_id": "MUSIC_SILPH_CO",
-        "track": "music/Pokemon Yellow (MP3).zophar/42 Sylph Company.mp3"
+        "track": "40 Silph Co.mp3"
     },
     "236": {
         "name": "Silph Co Elevator",
         "symbol": "SILPH_CO_ELEVATOR",
         "music_id": "MUSIC_SILPH_CO",
-        "track": "music/Pokemon Yellow (MP3).zophar/42 Sylph Company.mp3"
+        "track": "40 Silph Co.mp3"
     },
     "237": {
         "name": "Unused Map Ed",
         "symbol": "UNUSED_MAP_ED",
         "music_id": "MUSIC_SILPH_CO",
-        "track": "music/Pokemon Yellow (MP3).zophar/42 Sylph Company.mp3"
+        "track": "40 Silph Co.mp3"
     },
     "238": {
         "name": "Unused Map Ee",
         "symbol": "UNUSED_MAP_EE",
         "music_id": "MUSIC_SILPH_CO",
-        "track": "music/Pokemon Yellow (MP3).zophar/42 Sylph Company.mp3"
+        "track": "40 Silph Co.mp3"
     },
     "239": {
         "name": "Trade Center",
         "symbol": "TRADE_CENTER",
         "music_id": "MUSIC_CELADON",
-        "track": "music/Pokemon Yellow (MP3).zophar/09 Celadon City's Theme.mp3"
+        "track": "35 Celadon City.mp3"
     },
     "240": {
         "name": "Colosseum",
         "symbol": "COLOSSEUM",
         "music_id": "MUSIC_CELADON",
-        "track": "music/Pokemon Yellow (MP3).zophar/09 Celadon City's Theme.mp3"
+        "track": "35 Celadon City.mp3"
     },
     "241": {
         "name": "Unused Map F1",
         "symbol": "UNUSED_MAP_F1",
         "music_id": "MUSIC_SILPH_CO",
-        "track": "music/Pokemon Yellow (MP3).zophar/42 Sylph Company.mp3"
+        "track": "40 Silph Co.mp3"
     },
     "242": {
         "name": "Unused Map F2",
         "symbol": "UNUSED_MAP_F2",
         "music_id": "MUSIC_SILPH_CO",
-        "track": "music/Pokemon Yellow (MP3).zophar/42 Sylph Company.mp3"
+        "track": "40 Silph Co.mp3"
     },
     "243": {
         "name": "Unused Map F3",
         "symbol": "UNUSED_MAP_F3",
         "music_id": "MUSIC_SILPH_CO",
-        "track": "music/Pokemon Yellow (MP3).zophar/42 Sylph Company.mp3"
+        "track": "40 Silph Co.mp3"
     },
     "244": {
         "name": "Unused Map F4",
         "symbol": "UNUSED_MAP_F4",
         "music_id": "MUSIC_SILPH_CO",
-        "track": "music/Pokemon Yellow (MP3).zophar/42 Sylph Company.mp3"
+        "track": "40 Silph Co.mp3"
     },
     "245": {
         "name": "Loreleis Room",
         "symbol": "LORELEIS_ROOM",
         "music_id": "MUSIC_GYM",
-        "track": "music/Pokemon Yellow (MP3).zophar/06 Pokemon Gym.mp3"
+        "track": "19 Pokemon Gym.mp3"
     },
     "246": {
         "name": "Brunos Room",
         "symbol": "BRUNOS_ROOM",
         "music_id": "MUSIC_DUNGEON1",
-        "track": "music/Pokemon Yellow (MP3).zophar/37 Team Rocket Hideout.mp3"
+        "track": "37 Rocket Hideout.mp3"
     },
     "247": {
         "name": "Agathas Room",
         "symbol": "AGATHAS_ROOM",
         "music_id": "MUSIC_POKEMON_TOWER",
-        "track": "music/Pokemon Yellow (MP3).zophar/41 Pokemon Tower.mp3"
+        "track": "34 Pokemon Tower.mp3"
     },
     "248": {
         "name": "Summer Beach House",
         "symbol": "SUMMER_BEACH_HOUSE",
         "music_id": "MUSIC_ROUTES3",
-        "track": "music/Pokemon Yellow (MP3).zophar/21 The Road to Lavender Town ~ from Vermilion.mp3"
+        "track": "22 Road to Cerulean City (Leaving Mt. Moon).mp3"
     }
 }

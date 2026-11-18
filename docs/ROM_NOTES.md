@@ -89,12 +89,28 @@ Ids not yet extracted: battle themes, trainer intros, bike, surf, Yellow-only so
 
 ## Audio files (measured)
 
-- The zophar set (`music/Pokemon Yellow (MP3).zophar/`) has 98 files, 313 MB. Most are
-  exactly 180.0 s with a fade-out: −19 dB at 170 s, −49 dB at 176 s, −66 dB at 179 s.
-  Tracks 18 and 57–98 are short jingles of 1–4 s.
-- `music/Pokémon Yellow Soundtrack MP3/` is 55 stereo + 55 mono tracks (362 MB), unused.
-  Lengths vary (Pallet Town 79.5 s, Wild Battle 91.2 s).
+All sets use canonical names (`NN Title.mp3`) after `tools/normalize_music.py --apply`.
+That script holds the original → canonical table for each set.
+
+- The zophar set (`music/Pokemon Yellow (MP3).zophar/`) has 98 files, 313 MB, 44.1 kHz.
+  Most are exactly 180.0 s with a fade-out: −19 dB at 170 s, −49 dB at 176 s, −66 dB at
+  179 s. Its 44 unnamed 1–4 s jingles (old names 46, 50, 57–98) are in `unidentified/`.
+- `music/Pokémon Yellow Soundtrack MP3/` is 55 stereo + 55 mono tracks (362 MB), 48 kHz,
+  ~340 kbps, with cover art. Lengths vary (Pallet Town 79.5 s, Wild Battle 91.2 s). Both
+  fade out over the last ~10 s (Pallet Town: −15 dB at 60 s, −20 dB at 70 s, −36 dB at
+  77.5 s). The "mono" files are 2-channel with L = R (L−R peak −91 dB). The "stereo"
+  files have real panning (L−R peak −3 to −4 dB). Stereo and mono have identical
+  durations.
+- Zophar ↔ soundtrack pairing was checked by audio, not by title: chroma similarity of
+  the first 30 s is 0.82–0.97 for every pair and at most 0.46 for the runner-up. Zophar
+  "Opening (part 1/2)" = "Opening Movie" / "Title Screen", "Unknown Song" = "Theme Of
+  Giovanni (Unused)", and "Into the Hall" = "Hall Of Fame".
+- Route songs by map (`data/songs.asm`): `MUSIC_ROUTES1` Routes 1–2, `MUSIC_ROUTES2`
+  Routes 24–25 → `27 To Bill`, `MUSIC_ROUTES3` Routes 3–10 and 16–22 → `22 Road to
+  Cerulean City`, `MUSIC_ROUTES4` Routes 11–15 → `32 Road to Lavender Town`,
+  `MUSIC_INDIGO_PLATEAU` Route 23 and the League → `44 The Final Road`. Inferred from
+  geography and titles, not yet confirmed by listening in game.
 - `music/battles/*.mp3` and `music/locations/*.mp3` are byte-identical copies of zophar
-  tracks 24, 25, 04, 19 and 32.
-- Neither set has a file named "Safari Zone". In Gen 1 the Safari Zone and evolution
-  music is the same song, so use `17 Evolution.mp3` (not yet confirmed by listening).
+  `09`, `12`, `05`, `11` and `07`. The code no longer uses them.
+- No set has a file named "Safari Zone". In Gen 1 the Safari Zone and evolution music is
+  the same song, so use `28 Evolution.mp3` (not yet confirmed by listening).

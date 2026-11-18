@@ -3,13 +3,13 @@ import re
 from pathlib import Path
 
 from map_registry import get_map_name
+from music_sources import find_track, load_sources
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 MAP_CONSTANTS_FILE = BASE_DIR / "data/map_constants.asm"
 SONGS_FILE = BASE_DIR / "data/songs.asm"
 THEMES_FILE = BASE_DIR / "config/music_themes.json"
-OST_DIR = BASE_DIR / "music/Pokemon Yellow (MP3).zophar"
 OUTPUT_FILE = BASE_DIR / "data/map_music.json"
 
 
@@ -79,6 +79,9 @@ def main():
             f"Song entries without maps: {sorted(missing_maps)}"
         )
 
+    default_source, sources = load_sources()
+    missing_by_source = {name: set() for name in sources}
+
     registry = {}
     unresolved = set()
 
@@ -89,14 +92,21 @@ def main():
         track = None
 
         if filename:
-            track_path = OST_DIR / filename
+            found = {
+                name: find_track(folder, filename) is not None
+                for name, folder in sources.items()
+            }
 
-            if not track_path.is_file():
+            if not any(found.values()):
                 raise FileNotFoundError(
-                    f"Missing OST file for {music_id}: {track_path}"
+                    f"Missing track for {music_id} in every music source: {filename}"
                 )
 
-            track = str(track_path.relative_to(BASE_DIR))
+            for name, present in found.items():
+                if not present:
+                    missing_by_source[name].add(filename)
+
+            track = filename
         else:
             unresolved.add(music_id)
 
@@ -124,6 +134,11 @@ def main():
     )
 
     print(f"Maps without assigned tracks: {unresolved_maps}")
+
+    for name, missing in missing_by_source.items():
+        marker = " (default)" if name == default_source else ""
+        status = "complete" if not missing else f"missing {sorted(missing)}"
+        print(f"Music source {name}{marker}: {status}")
 
 
 if __name__ == "__main__":

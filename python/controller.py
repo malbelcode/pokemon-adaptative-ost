@@ -1,8 +1,10 @@
+import argparse
 import json
 import socket
 from pathlib import Path
 
 from music_player import MusicPlayer
+from music_sources import TrackResolver, load_sources
 
 
 HOST = "127.0.0.1"
@@ -13,20 +15,25 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 MAP_MUSIC_FILE = BASE_DIR / "data/map_music.json"
 DEFAULT_LOCATION_TRACK = BASE_DIR / "music/locations/default.wav"
 
+# Canonical track names, resolved inside the selected music source
+# (config/music_sources.json).
 BATTLE_TRACKS = {
-    "WILD_BATTLE": BASE_DIR / "music/battles/wild.mp3",
-    "TRAINER_BATTLE": BASE_DIR / "music/battles/trainer.mp3",
+    "WILD_BATTLE": "12 Battle (Wild Pokemon).mp3",
+    "TRAINER_BATTLE": "09 Battle (Trainer).mp3",
 }
 
 VICTORY_TRACKS = {
-    "WILD_BATTLE": BASE_DIR / "music/Pokemon Yellow (MP3).zophar/28 Victory (VS Wild Pokemon).mp3",
-    "TRAINER_BATTLE": BASE_DIR / "music/Pokemon Yellow (MP3).zophar/27 Victory (VS Trainer).mp3",
-    "GYM_LEADER_BATTLE": BASE_DIR / "music/Pokemon Yellow (MP3).zophar/29 Victory (VS Gym Leader).mp3"
+    "WILD_BATTLE": "13 Victory (Wild Pokemon).mp3",
+    "TRAINER_BATTLE": "10 Victory (Trainer).mp3",
+    "GYM_LEADER_BATTLE": "21 Victory (Gym Leader).mp3",
 }
 
 class AdaptiveOST:
 
-    def __init__(self):
+    def __init__(self, source=None):
+        self.tracks = TrackResolver(source)
+        print(f"[TRACK] Music source: {self.tracks.source} ({self.tracks.folder.relative_to(BASE_DIR)})")
+
         self.player = MusicPlayer(volume=50)
         self.current_track = None
         self.current_state = None
@@ -48,7 +55,7 @@ class AdaptiveOST:
             self.play_location_music()
 
     def play_track(self, track):
-        if track == self.current_track:
+        if track is None or track == self.current_track:
             return
 
         self.player.play(track)
@@ -60,7 +67,7 @@ class AdaptiveOST:
         track = DEFAULT_LOCATION_TRACK
 
         if map_entry and map_entry["track"]:
-            track = BASE_DIR / map_entry["track"]
+            track = self.tracks.resolve(map_entry["track"]) or DEFAULT_LOCATION_TRACK
 
         self.play_track(track)
 
@@ -100,7 +107,7 @@ class AdaptiveOST:
 
         if state in BATTLE_TRACKS:
             self.last_battle_state = state
-            self.play_track(BATTLE_TRACKS[state])
+            self.play_track(self.tracks.resolve(BATTLE_TRACKS[state]))
         else:
             self.last_battle_state = None
             self.play_location_music()
@@ -108,14 +115,19 @@ class AdaptiveOST:
     def handle_trainer_spotted(self):
         print("[TRAINER] Trainer spotted! Starting trainer music")
 
-        self.play_track(BATTLE_TRACKS["TRAINER_BATTLE"])
+        self.play_track(self.tracks.resolve(BATTLE_TRACKS["TRAINER_BATTLE"]))
 
     def handle_victory_started(self, event):
         victory_type = event["victory_type"]
-        victory_track = VICTORY_TRACKS.get(victory_type)
+        victory_name = VICTORY_TRACKS.get(victory_type)
+
+        if victory_name is None:
+            print(f"[VICTORY] Unknown victory type: {victory_type}")
+            return
+
+        victory_track = self.tracks.resolve(victory_name)
 
         if victory_track is None:
-            print(f"[VICTORY] Unknown victory type: {victory_type}")
             return
 
         print(f"[VICTORY] Starting {victory_type}")
@@ -151,7 +163,7 @@ class AdaptiveOST:
 
         if state in BATTLE_TRACKS:
             self.last_battle_state = state
-            self.play_track(BATTLE_TRACKS[state])
+            self.play_track(self.tracks.resolve(BATTLE_TRACKS[state]))
 
         elif state == "OVERWORLD":
             self.last_battle_state = None
@@ -162,8 +174,22 @@ class AdaptiveOST:
         self.player.close()
 
 
+def parse_args():
+    default_source, sources = load_sources()
+
+    parser = argparse.ArgumentParser(description="Pokemon Yellow adaptive OST controller")
+    parser.add_argument(
+        "--source",
+        choices=sorted(sources),
+        default=default_source,
+        help=f"music source to play from (default: {default_source}, set in config/music_sources.json)",
+    )
+    return parser.parse_args()
+
+
 def main():
-    ost = AdaptiveOST()
+    args = parse_args()
+    ost = AdaptiveOST(source=args.source)
 
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:

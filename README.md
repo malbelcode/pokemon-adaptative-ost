@@ -15,8 +15,8 @@ Other languages use different RAM addresses. See [docs/ARCHITECTURE.md](docs/ARC
 | ---------------------------------------- | ------------------------------------------------------------- |
 | Walking on any map (240 of 249 maps)     | That map's theme, looked up in `data/map_music.json`          |
 | Safari Zone maps (9)                     | `music/locations/default.wav`, a synthesized placeholder      |
-| Wild battle                              | `music/battles/wild.mp3`                                      |
-| Any trainer battle (gym leaders included) | `music/battles/trainer.mp3`                                   |
+| Wild battle                              | `12 Battle (Wild Pokemon).mp3`                                |
+| Any trainer battle (gym leaders included) | `09 Battle (Trainer).mp3`                                     |
 | Victory fanfare (wild / trainer / gym)   | Matching `Victory (...)` track, played once                   |
 | Back to the overworld                    | The current map's theme again                                 |
 | Loading a savestate (F1–F9, rewind)      | Switches to the music of the place in the loaded state        |
@@ -30,9 +30,17 @@ and Oak cutscenes, bicycle, surfing, Jessie & James, the heal jingle, and the ti
 - Python 3.10 or newer. Only the standard library is used.
 - `mpv` on `PATH` (`sudo apt install mpv`).
 - mGBA 0.10 or newer with Lua scripting (*Tools → Scripting…*).
-- The soundtrack MP3s, which are not included. The code expects the zophar rip at
-  `music/Pokemon Yellow (MP3).zophar/` with the original file names. See
-  `config/music_themes.json` and `python/controller.py` for the exact names.
+- The soundtrack MP3s, which are not included. Any of these folders works as a music
+  source (see [Choose the music source](#choose-the-music-source)):
+  - `music/Pokemon Yellow (MP3).zophar/` (zophar rip)
+  - `music/Pokémon Yellow Soundtrack MP3/Part I - Stereo/` and `…/Part II - Mono/`
+- After copying the MP3s in with their original names, rename them once to the shared
+  names the code uses:
+
+  ```sh
+  python3 tools/normalize_music.py           # dry run: shows every rename
+  python3 tools/normalize_music.py --apply   # renames (undo with --revert)
+  ```
 
 ## Quick start
 
@@ -58,7 +66,7 @@ and Oak cutscenes, bicycle, surfing, Jessie & James, the heal jingle, and the ti
 
    ```text
    [MAP] Pallet Town [ID: 0] [MUSIC: MUSIC_PALLET_TOWN]
-   [MPV] Playing: 04 Pallet Town's Theme.mp3
+   [MPV] Playing: 05 Pallet Town.mp3
    [BATTLE] WILD_BATTLE [RESULT: 0]
    ```
 
@@ -77,11 +85,13 @@ python/
   music_player.py           MusicPlayer: spawns mpv and talks to it over JSON IPC
   map_registry.py           map id → readable name, parsed from data/map_constants.asm
   generate_map_registry.py  Builds data/map_music.json (run after editing themes)
+  music_sources.py          Music source config + TrackResolver (canonical name → file)
   generate_tracks.py        Synthesizes the placeholder .wav tracks
   test_music_player.py      Manual smoke test: plays a generated melody through mpv
   mpv_test.py               Manual check against an mpv started by hand
 config/
-  music_themes.json         Game music constant (MUSIC_*) → MP3 file name
+  music_themes.json         Game music constant (MUSIC_*) → canonical track name
+  music_sources.json        Music source name → folder, and the default source
 data/
   map_constants.asm         From the pokeyellow disassembly: map symbols and ids
   songs.asm                 From pokeyellow: MapSongBanks, map → MUSIC_* constant
@@ -93,28 +103,51 @@ docs/
   ROM_NOTES.md              Verified RAM addresses, music id/bank table, audio measurements
 tools/
   rom_inspect.py            Static ROM checks: header, RAM reference counts, map song table
+  normalize_music.py        Renames the soundtrack sets to the shared track names
 ```
 
 ## Common tasks
 
+### Choose the music source
+
+Every source folder uses the same file names (for example `05 Pallet Town.mp3`), so a
+source is only a folder. The sources and the default are in `config/music_sources.json`:
+
+| Source | Folder | Notes |
+| --- | --- | --- |
+| `zophar` (default) | `music/Pokemon Yellow (MP3).zophar/` | 180 s renders, 44.1 kHz. Fades out every 3 minutes when looped. |
+| `ost_stereo` | `music/Pokémon Yellow Soundtrack MP3/Part I - Stereo/` | Stereo, as the game sounds in mGBA. 48 kHz. Tracks are 1–1.5 min, so the fade comes sooner. |
+| `ost_mono` | `music/Pokémon Yellow Soundtrack MP3/Part II - Mono/` | Same recordings mixed to mono (original Game Boy speaker). |
+
+Change `"default"` in that file, or pick a source for one run:
+
+```sh
+cd python
+python3 controller.py --source ost_stereo
+```
+
+The controller logs `[TRACK] Music source: …` at start. If a song is missing from the
+selected source, it plays the same name from another source and logs it.
+
 ### Change which file a theme uses
 
 Edit `config/music_themes.json`. Keys are the `MUSIC_*` constants from
-`data/music_constants.asm`. Values are file names inside `music/Pokemon Yellow (MP3).zophar/`.
-Then regenerate the registry:
+`data/music_constants.asm`. Values are canonical track names, the same in every source
+(see the table in `tools/normalize_music.py`). Then regenerate the registry:
 
 ```sh
 cd python
 python3 generate_map_registry.py
 ```
 
-The generator stops with an error if a configured file does not exist. It also prints
-which themes still have no file. Today that is only `MUSIC_SAFARI_ZONE`.
+The generator stops with an error if a configured name exists in no source, and prints
+which sources lack it otherwise. It also prints which themes still have no file. Today that is only `MUSIC_SAFARI_ZONE`.
 
 ### Change battle or victory tracks
 
 These are hard-coded in `python/controller.py` (`BATTLE_TRACKS`, `VICTORY_TRACKS`,
-`DEFAULT_LOCATION_TRACK`).
+`DEFAULT_LOCATION_TRACK`). Battle and victory entries are canonical track names, resolved
+in the selected source.
 
 ### Check that mpv works
 
