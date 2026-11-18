@@ -102,6 +102,10 @@ FANFARES = {
 
 FANFARE_SOCKET_PATH = "/tmp/pokemon-adaptive-ost-mpv-fanfare.sock"
 
+# Seconds for each volume ramp when the music switches track. Fanfares start hard,
+# as in the game.
+MUSIC_FADE = 0.25
+
 # A trainer intro song counts only this long after (or before) TRAINER_SPOTTED.
 TRAINER_INTRO_WINDOW = 3.0
 
@@ -112,7 +116,8 @@ class AdaptiveOST:
         self.tracks = TrackResolver(source)
         print(f"[TRACK] Music source: {self.tracks.source} ({self.tracks.folder.relative_to(BASE_DIR)})")
 
-        self.player = MusicPlayer(volume=50)
+        # Track switches fade out and back in instead of cutting hard.
+        self.player = MusicPlayer(volume=50, fade=MUSIC_FADE)
         # Fanfares play in a second mpv, so the music keeps its position under them.
         self.fanfare_player = MusicPlayer(volume=50, socket_path=FANFARE_SOCKET_PATH, name="FANFARE")
         self.current_track = None

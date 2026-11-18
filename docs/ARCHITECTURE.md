@@ -27,6 +27,10 @@ Three processes run during play:
    --input-ipc-server=/tmp/pokemon-adaptive-ost-mpv.sock`. It is controlled with
    `loadfile … replace`, `set_property loop-file` and `set_property pause`.
    `send_command` holds a lock, because the mpv event thread also sends commands.
+   With `fade` set (the music player: `MUSIC_FADE` = 0.25 s), `play()` ramps `volume`
+   down to 0 over `fade` seconds, loads the file, waits for its first `playback-restart`
+   event after `start-file`, and ramps back up. `play_lock` keeps two switches from
+   interleaving. No fade runs while paused, and none on the fanfare player.
 
 ## Lua → Python protocol
 

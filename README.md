@@ -38,7 +38,8 @@ Other languages use different RAM addresses. See [docs/ARCHITECTURE.md](docs/ARC
 | mGBA paused, in the background, or closed | Music pauses within ~0.5 s and resumes where it stopped       |
 
 These follow the song the game itself starts, so they begin and end when the game's own
-music would. Fanfares (zophar only; used with any source) pause the music, as the game
+music would. Track switches fade out and in over about half a second instead of cutting.
+Fanfares (zophar only; used with any source) pause the music, as the game
 does, and it resumes where it stopped when the game's fanfare ends.
 
 ## Requirements

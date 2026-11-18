@@ -8,9 +8,15 @@ from pathlib import Path
 
 class MusicPlayer:
     SOCKET_PATH = "/tmp/pokemon-adaptive-ost-mpv.sock"
+    # Time between volume steps while fading.
+    FADE_STEP = 0.02
+    # How long to wait for a new file to start playing before fading it in anyway.
+    START_TIMEOUT = 1.0
 
-    def __init__(self, volume=70, socket_path=SOCKET_PATH, name="MPV"):
+    def __init__(self, volume=70, socket_path=SOCKET_PATH, name="MPV", fade=0.0):
         self.volume = volume
+        # Seconds for each volume ramp on a track switch (out, then in). 0 cuts hard.
+        self.fade = fade
         self.socket_path = socket_path
         # Log tag, so a second player (fanfares) is told apart from the music.
         self.name = name
@@ -25,6 +31,12 @@ class MusicPlayer:
         # send_command is called from the controller thread and from the mpv event
         # thread (track-end callback), so request/response pairs must not interleave.
         self.command_lock = threading.Lock()
+        # A track switch (fade out, load, fade in) is one step: two switches from
+        # different threads must not interleave their volume ramps.
+        self.play_lock = threading.RLock()
+        # Set by the event thread when a newly loaded file starts playing.
+        self.playback_started = threading.Event()
+        self.loading_file = False
 
     def start(self):
         """Start MPV in idle mode with IPC enabled."""
@@ -145,7 +157,17 @@ class MusicPlayer:
                     except json.JSONDecodeError:
                         continue
 
-                    if event.get("event") == "end-file":
+                    name = event.get("event")
+
+                    if name == "start-file":
+                        self.loading_file = True
+                    elif name == "playback-restart" and self.loading_file:
+                        # Also sent after seeks (loop-file); only the first one
+                        # after start-file means the new track is audible.
+                        self.loading_file = False
+                        self.playback_started.set()
+
+                    if name == "end-file":
                         reason = event.get("reason")
 
                         if reason == "eof" and self.on_track_end:
@@ -167,10 +189,57 @@ class MusicPlayer:
             return
 
         loop_mode = "inf" if loop else "no"
-        self.send_command(["set_property", "loop-file", loop_mode])
-        self.send_command(["loadfile", str(track), "replace"])
+
+        with self.play_lock:
+            # Paused music is silent, so there is nothing to fade.
+            fading = self.fade > 0 and not self.paused
+
+            if fading:
+                if self._is_playing():
+                    self._ramp_volume(self.volume, 0)
+                else:
+                    self.send_command(["set_property", "volume", 0])
+
+            self.playback_started.clear()
+            self.send_command(["set_property", "loop-file", loop_mode])
+            self.send_command(["loadfile", str(track), "replace"])
+
+            if fading:
+                self._wait_for_playback()
+                self._ramp_volume(0, self.volume)
 
         print(f"[{self.name}] Playing: {track.name}")
+
+    def _is_playing(self):
+        """True while a file is loaded (mpv is not idle)."""
+
+        response = self.send_command(["get_property", "idle-active"])
+        return not response.get("data")
+
+    def _wait_for_playback(self):
+        """Wait until the file just loaded is playing, so the fade-in is heard.
+
+        The event thread sets the flag, so it cannot wait for itself: when it starts
+        a track (track-end callback) the fade-in simply starts right away.
+        """
+
+        if threading.current_thread() is self.event_thread:
+            return
+
+        if not self.playback_started.wait(self.START_TIMEOUT):
+            print(f"[{self.name}] Track did not start within {self.START_TIMEOUT} s; fading in anyway")
+
+    def _ramp_volume(self, start, end):
+        """Move the mpv volume from start to end over self.fade seconds."""
+
+        steps = max(1, round(self.fade / self.FADE_STEP))
+
+        for step in range(1, steps + 1):
+            volume = start + (end - start) * step / steps
+            self.send_command(["set_property", "volume", volume])
+
+            if step < steps:
+                time.sleep(self.FADE_STEP)
 
     def set_paused(self, paused):
         """Pause or resume playback, keeping the current position.
@@ -195,8 +264,9 @@ class MusicPlayer:
     def set_volume(self, volume):
         """Change playback volume."""
 
-        self.volume = max(0, min(100, volume))
-        self.send_command(["set_property", "volume", self.volume])
+        with self.play_lock:
+            self.volume = max(0, min(100, volume))
+            self.send_command(["set_property", "volume", self.volume])
 
     def close(self):
         if self.event_connection:
