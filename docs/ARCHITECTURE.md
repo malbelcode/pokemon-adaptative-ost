@@ -1,0 +1,147 @@
+# Architecture
+
+## Overview
+
+```text
+ ┌──────────────── mGBA ────────────────┐   JSON lines    ┌──────── Python ────────┐   JSON IPC    ┌──── mpv ────┐
+ │ ROM ── RAM ──► lua/pokemon_yellow.lua│ ──────────────► │ controller.py          │ ────────────► │ idle player │
+ │   (polled every frame)               │  TCP :8765      │  AdaptiveOST           │ ◄──────────── │ (no video)  │
+ └──────────────────────────────────────┘                 │  music_player.py       │  end-file     └──────┬──────┘
+                                                          └──────────▲─────────────┘                      │
+                                                                     │ data/map_music.json                │ reads
+   data/map_constants.asm ─┐                                         │                                    ▼
+   data/songs.asm ─────────┼──► python/generate_map_registry.py ─────┘                          music/**/*.mp3
+   config/music_themes.json┘        (offline, run on demand)
+```
+
+Three processes run during play:
+
+1. **mGBA + `lua/pokemon_yellow.lua`.** It reads a few WRAM bytes on every frame callback
+   and sends a JSON event when one of them changes. It holds no music logic.
+2. **`python/controller.py`.** A blocking TCP server that accepts one mGBA connection at a
+   time and feeds each line to `AdaptiveOST.handle_event`. `AdaptiveOST` decides what
+   should play.
+3. **`mpv`.** Started by `MusicPlayer.start()` with `--idle=yes --no-video
+   --input-ipc-server=/tmp/pokemon-adaptive-ost-mpv.sock`. It is controlled with
+   `loadfile … replace` and `set_property loop-file`.
+
+## Lua → Python protocol
+
+Newline-delimited JSON over TCP to `127.0.0.1:8765`. Each line is one event:
+
+| `event` | Sent when | Fields |
+| --- | --- | --- |
+| `MAP_CHANGED` | At script start, and whenever `wCurMap` changes | `map_id` (int, 0–248) |
+| `BATTLE_CHANGED` | At script start, and whenever `wIsInBattle` changes | `state`, `value`, `map_id`, `battle_result` |
+| `VICTORY_STARTED` | Music channels 0–2 all switch to a victory song id | `victory_type` |
+| `TRAINER_SPOTTED` | The byte at 0xCD3D changes to 255 (a trainer has seen the player) | none |
+| `MUSIC_CHANGED` | Defined in Lua (`sendMusicChanged`) but never sent | `music_id` |
+
+`state` is derived from `wIsInBattle`:
+
+| `value` | `state` |
+| --- | --- |
+| 0 | `OVERWORLD` |
+| 1 | `WILD_BATTLE` |
+| 2 | `TRAINER_BATTLE` |
+| 255 | `LOST_BATTLE` |
+| other | `UNKNOWN` |
+
+`victory_type` is derived from the shared channel sound id:
+
+| id | Song (`music_constants.asm`) | `victory_type` |
+| --- | --- | --- |
+| 246 (0xF6) | `MUSIC_DEFEATED_TRAINER` | `TRAINER_BATTLE` |
+| 249 (0xF9) | `MUSIC_DEFEATED_WILD_MON` | `WILD_BATTLE` |
+| 252 (0xFC) | `MUSIC_DEFEATED_GYM_LEADER` | `GYM_LEADER_BATTLE` |
+
+Example session:
+
+```json
+{"event":"MAP_CHANGED","map_id":12}
+{"event":"BATTLE_CHANGED","state":"OVERWORLD","value":0,"map_id":12,"battle_result":0}
+{"event":"BATTLE_CHANGED","state":"WILD_BATTLE","value":1,"map_id":12,"battle_result":0}
+{"event":"VICTORY_STARTED","victory_type":"WILD_BATTLE"}
+{"event":"BATTLE_CHANGED","state":"OVERWORLD","value":0,"map_id":12,"battle_result":0}
+```
+
+## Controller state machine (`AdaptiveOST`)
+
+State: `current_state` (last `BATTLE_CHANGED.state`), `current_map`, `current_track`.
+
+| Event | Action |
+| --- | --- |
+| `MAP_CHANGED` | Store `current_map`. If `current_state` is `None` or `OVERWORLD`, play the map's track. |
+| `BATTLE_CHANGED` with `WILD_BATTLE` / `TRAINER_BATTLE` | Play `BATTLE_TRACKS[state]`, looped. |
+| `BATTLE_CHANGED` with `OVERWORLD` | Play the current map's track. This cuts off a victory fanfare that is still playing, as the game does. |
+| `BATTLE_CHANGED` with `LOST_BATTLE` / `UNKNOWN` | Only stores the state. The current track keeps playing. |
+| `VICTORY_STARTED` | Play `VICTORY_TRACKS[type]` once (`loop-file=no`). |
+| `TRAINER_SPOTTED` | Not handled yet. Logged as `[EVENT] Unknown event`. |
+| mpv `end-file` with `reason: eof` | If `OVERWORLD`, play the map's track. This callback runs on the mpv event thread. |
+
+`play_track` skips the request when the track is already the current one, so repeated
+events don't restart the song.
+
+Map track lookup: `data/map_music.json[str(map_id)].track`, relative to the repository root.
+If it is `null`, `music/locations/default.wav` plays instead.
+
+## Map → music registry
+
+`data/map_music.json` is generated. Don't edit it by hand.
+
+```text
+map_constants.asm  "map_const PALLET_TOWN, 10, 9 ; $00"   → id 0  ↔ PALLET_TOWN
+songs.asm          "db MUSIC_PALLET_TOWN, … ; PALLET_TOWN" → PALLET_TOWN ↔ MUSIC_PALLET_TOWN
+music_themes.json  "MUSIC_PALLET_TOWN": "04 Pallet Town's Theme.mp3"
+                    ⇒ "0": {"name": "Pallet Town", "symbol": "PALLET_TOWN",
+                            "music_id": "MUSIC_PALLET_TOWN",
+                            "track": "music/Pokemon Yellow (MP3).zophar/04 Pallet Town's Theme.mp3"}
+```
+
+The `.asm` files come from the [pokeyellow](https://github.com/pret/pokeyellow)
+disassembly. The map → music table they describe (`MapSongBanks`) is byte-identical in the
+Spanish ROM (found at ROM offset `0xFC000`), so the mapping is valid for this cartridge.
+
+## RAM addresses
+
+The Lua script reads these from the Spanish ROM:
+
+| Symbol | Address | Status in the Spanish ROM |
+| --- | --- | --- |
+| `wCurMap` | `0xD362` | Verified: 85 direct references in code |
+| `wIsInBattle` | `0xD05B` | Verified: 99 direct references |
+| `wChannelSoundIDs` | `0xC026` (+0..+2) | Verified: audio WRAM, same as English |
+| `wBattleResult` | `0xCF0B` | **Suspect**: 0 references. This is likely the English address. Only logged. |
+| `wCurOpponent` | `0xD05D` | In `diagnostic.lua` only |
+| `wBattleType` | `0xD05E` | In `diagnostic.lua` only |
+| trainer sprite offset | `0xCD3D` | Used for `TRAINER_SPOTTED` (255 = spotted). 204 references: a shared scratch byte, so other values may also appear there. |
+
+The overworld variables (D-range WRAM) sit 4–5 bytes higher than in the English Yellow
+build. Audio-engine variables (`0xC0xx`) are unchanged. When porting to another language,
+re-derive the D-range addresses with `lua/diagnostic.lua`.
+
+Music ids are **only unique within an audio bank**. For example, `0xCD` is
+`MUSIC_CINNABAR` in bank `0x02` and `MUSIC_OAKS_LAB` in bank `0x1F`. Any logic keyed on
+raw song ids must also know the bank.
+
+## Audio assets
+
+| Path | Used by | Notes |
+| --- | --- | --- |
+| `music/Pokemon Yellow (MP3).zophar/` | registry, `VICTORY_TRACKS` | 98 files, 313 MB. Most are fixed 180 s renders with a fade-out in the last ~5 s. |
+| `music/battles/{wild,trainer}.mp3` | `BATTLE_TRACKS` | Byte-identical copies of zophar tracks 25 and 24 |
+| `music/locations/*.mp3` | nothing | Copies of zophar tracks 04, 19 and 32 |
+| `music/locations/default.wav`, `music/battles/*.wav` | default location track | Placeholders from `generate_tracks.py` |
+| `music/Pokémon Yellow Soundtrack MP3/` | nothing | Another rip (stereo + mono), 362 MB |
+| `music/events/` | nothing | Empty |
+
+## Known limitations
+
+In brief:
+
+- All trainer battles use the regular trainer theme.
+- Tracks fade out and restart every 3 minutes.
+- The Lua script never reconnects.
+- The mpv event thread and the main thread share one IPC socket without a lock.
+- Read errors on the mGBA connection, mpv timeouts, and malformed events can stop the
+  controller.

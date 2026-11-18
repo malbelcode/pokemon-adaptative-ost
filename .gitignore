@@ -1,0 +1,12 @@
+# Audio: copyrighted soundtrack rips and generated placeholders (see README)
+music/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# ROMs, saves and save states
+*.gb
+*.gbc
+*.sav
+*.ss[0-9]
