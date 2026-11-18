@@ -29,6 +29,14 @@ BATTLE_TRACKS = {
     "TRAINER_BATTLE": "09 Battle (Trainer).mp3",
 }
 
+# Keyed by the "battle_music" field of BATTLE_MUSIC_STARTED, which the Lua script
+# reads from the battle song the game starts when the transition animation begins.
+BATTLE_MUSIC_TRACKS = {
+    "WILD": "12 Battle (Wild Pokemon).mp3",
+    "TRAINER": "09 Battle (Trainer).mp3",
+    "GYM_LEADER": "20 Battle (Gym Leader).mp3",
+}
+
 # Keyed by the "trainer_music" field of TRAINER_SPOTTED, which the Lua script
 # reads from the song the game starts (MUSIC_MEET_*_TRAINER).
 TRAINER_INTRO_TRACKS = {
@@ -57,6 +65,9 @@ class AdaptiveOST:
         self.victory_playing = False
         self.paused = False
         self.last_message_time = None
+        # True once BATTLE_MUSIC_STARTED has chosen the battle track, so the later
+        # BATTLE_CHANGED (sent when wIsInBattle changes) does not replace it.
+        self.battle_music_started = False
 
         with MAP_MUSIC_FILE.open(encoding="utf-8") as file:
             self.map_music = json.load(file)
@@ -162,6 +173,9 @@ class AdaptiveOST:
         elif event_type == "TRAINER_SPOTTED":
             self.handle_trainer_spotted(event)
 
+        elif event_type == "BATTLE_MUSIC_STARTED":
+            self.handle_battle_music_started(event)
+
         elif event_type == "STATE_LOADED":
             self.handle_state_loaded(event)
 
@@ -176,6 +190,7 @@ class AdaptiveOST:
         self.current_map = event["map_id"]
         self.current_state = state
         self.victory_playing = False
+        self.battle_music_started = False
 
         map_entry = self.map_music.get(str(self.current_map))
         location = map_entry["name"] if map_entry else f"Unknown location ({self.current_map})"
@@ -187,6 +202,20 @@ class AdaptiveOST:
         else:
             self.last_battle_state = None
             self.play_location_music()
+
+    def handle_battle_music_started(self, event):
+        kind = event.get("battle_music")
+        track = BATTLE_MUSIC_TRACKS.get(kind)
+
+        if track is None:
+            print(f"[BATTLE] Unknown battle music {kind!r}")
+            return
+
+        print(f"[BATTLE] Battle transition started ({kind}). Playing battle music")
+
+        self.battle_music_started = True
+        self.victory_playing = False
+        self.play_track(self.tracks.resolve(track))
 
     def handle_trainer_spotted(self, event):
         kind = event.get("trainer_music")
@@ -248,11 +277,17 @@ class AdaptiveOST:
 
         if state in BATTLE_TRACKS:
             self.last_battle_state = state
-            self.play_track(self.tracks.resolve(BATTLE_TRACKS[state]))
+
+            # Normally the battle music already started with the transition
+            # animation (BATTLE_MUSIC_STARTED). This is the fallback, for example
+            # for the champion, whose song id is not detected.
+            if not self.battle_music_started:
+                self.play_track(self.tracks.resolve(BATTLE_TRACKS[state]))
 
         elif state == "OVERWORLD":
             self.last_battle_state = None
             self.victory_playing = False
+            self.battle_music_started = False
             self.play_location_music()
 
     def close(self):

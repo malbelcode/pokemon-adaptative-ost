@@ -37,6 +37,15 @@ local TRAINER_INTRO_SONGS = {
     [0xFB] = "MALE"
 }
 local TRAINER_INTRO_WINDOW = 180 -- frames (3 s)
+
+-- Battle songs (audio bank 0x08). The game starts them when the battle transition
+-- animation begins, before wIsInBattle changes. MUSIC_FINAL_BATTLE (0xF3) is left
+-- out: 0xF3 is also MUSIC_ROUTES3, the map song of Routes 3-10 and 16-22.
+local BATTLE_SONGS = {
+    [0xEA] = "GYM_LEADER",
+    [0xED] = "TRAINER",
+    [0xF0] = "WILD"
+}
 local trainerIntroFramesLeft = 0
 
 --------------------------------------------------
@@ -239,6 +248,19 @@ callbacks:add("frame", function()
                 victoryType = "TRAINER_BATTLE"
             elseif channels[1] == 252 then
                 victoryType = "GYM_LEADER_BATTLE"
+            end
+        end
+
+        if channels[1] == channels[2] and channels[2] == channels[3] then
+            local battleMusic = BATTLE_SONGS[channels[1]]
+
+            if battleMusic then
+                console:log("[BATTLE] Battle music started: " .. battleMusic)
+
+                sendEvent(string.format(
+                    '{"event":"BATTLE_MUSIC_STARTED","battle_music":"%s"}\n',
+                    battleMusic
+                ))
             end
         end
 

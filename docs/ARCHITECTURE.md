@@ -38,6 +38,7 @@ Newline-delimited JSON over TCP to `127.0.0.1:8765`. Each line is one event:
 | `BATTLE_CHANGED` | At script start, and whenever `wIsInBattle` changes | `state`, `value`, `map_id`, `battle_result` |
 | `VICTORY_STARTED` | Music channels 0–2 all switch to a victory song id | `victory_type` |
 | `TRAINER_SPOTTED` | The byte at 0xCD3D changes to 255 (a trainer has seen the player), and within the next 180 frames, while not in battle, music channels 0–2 all hold a trainer intro song id. If no intro song starts (rival, scripted fights), nothing is sent. | `trainer_music`: `MALE` (0xFB), `FEMALE` (0xF8) or `EVIL` (0xF5) |
+| `BATTLE_MUSIC_STARTED` | Music channels 0–2 all switch to a battle song id (bank 0x08): 0xEA, 0xED or 0xF0. The game starts it when the battle transition animation begins, before `wIsInBattle` changes. 0xF3 (final battle) is not used because it is also `MUSIC_ROUTES3`. | `battle_music`: `GYM_LEADER`, `TRAINER` or `WILD` |
 | `HEARTBEAT` | Every 10 frames (~0.17 s at full speed). Stops while mGBA is paused. | none |
 | `STATE_LOADED` | `emu:currentFrame()` does not advance by exactly 1 since the last frame (savestate load, rewind or reset; mGBA restores the frame counter from the state). That frame's other checks are skipped and all `previous` values are re-read. | `map_id`, `state`, `value`, `battle_result` |
 | `MUSIC_CHANGED` | Defined in Lua (`sendMusicChanged`) but never sent | `music_id` |
@@ -77,8 +78,9 @@ State: `current_state` (last `BATTLE_CHANGED.state`), `current_map`, `current_tr
 | Event | Action |
 | --- | --- |
 | `MAP_CHANGED` | Store `current_map`. If `current_state` is `None` or `OVERWORLD`, play the map's track. |
-| `BATTLE_CHANGED` with `WILD_BATTLE` / `TRAINER_BATTLE` | Play `BATTLE_TRACKS[state]`, looped. |
-| `BATTLE_CHANGED` with `OVERWORLD` | Play the current map's track. This cuts off a victory fanfare that is still playing, as the game does. |
+| `BATTLE_MUSIC_STARTED` | Play `BATTLE_MUSIC_TRACKS[battle_music]` (`12`, `09` or `20 Battle (…)`), looped, set `battle_music_started`, and log `[BATTLE]`. |
+| `BATTLE_CHANGED` with `WILD_BATTLE` / `TRAINER_BATTLE` | Keep the music if `battle_music_started`. Otherwise (champion, or a missed id) play `BATTLE_TRACKS[state]`, looped. |
+| `BATTLE_CHANGED` with `OVERWORLD` | Clear `battle_music_started` and play the current map's track. This cuts off a victory fanfare that is still playing, as the game does. |
 | `BATTLE_CHANGED` with `LOST_BATTLE` / `UNKNOWN` | Only stores the state. The current track keeps playing. |
 | `VICTORY_STARTED` | Play `VICTORY_TRACKS[type]` once (`loop-file=no`). |
 | `TRAINER_SPOTTED` | Play `TRAINER_INTRO_TRACKS[trainer_music]` (`17`/`23`/`38 A Trainer Appears (…)`), looped, and log `[TRAINER]`. `current_state` is not changed. The following `BATTLE_CHANGED` with `TRAINER_BATTLE` switches to the battle theme. |
@@ -162,7 +164,7 @@ raw song ids must also know the bank.
 
 In brief:
 
-- All trainer battles use the regular trainer theme.
+- The champion battle uses the regular trainer theme, starting at the battle screen. Its song id (0xF3) is shared with `MUSIC_ROUTES3`.
 - Tracks fade out and restart every 3 minutes.
 - The Lua script never reconnects.
 - Pausing the music in the background depends on mGBA pausing itself

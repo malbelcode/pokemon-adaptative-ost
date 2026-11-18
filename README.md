@@ -16,14 +16,16 @@ Other languages use different RAM addresses. See [docs/ARCHITECTURE.md](docs/ARC
 | Walking on any map (240 of 249 maps)     | That map's theme, looked up in `data/map_music.json`          |
 | Safari Zone maps (9)                     | `music/locations/default.wav`, a synthesized placeholder      |
 | A trainer spots you                      | That trainer's "A Trainer Appears" theme (boy, girl or bad guy), until the battle starts |
-| Wild battle                              | `12 Battle (Wild Pokemon).mp3`                                |
-| Any trainer battle (gym leaders included) | `09 Battle (Trainer).mp3`                                     |
+| Wild battle                              | `12 Battle (Wild Pokemon).mp3`, from the start of the battle transition animation |
+| Trainer battle                           | `09 Battle (Trainer).mp3`, from the start of the transition    |
+| Gym leader or Elite Four battle          | `20 Battle (Gym Leader).mp3`, from the start of the transition |
+| Champion battle                          | `09 Battle (Trainer).mp3`, from the battle screen (not detected earlier yet) |
 | Victory fanfare (wild / trainer / gym)   | Matching `Victory (...)` track, played once                   |
 | Back to the overworld                    | The current map's theme again                                 |
 | Loading a savestate (F1–F9, rewind)      | Switches to the music of the place in the loaded state        |
 | mGBA paused, in the background, or closed | Music pauses within ~0.5 s and resumes where it stopped       |
 
-Not handled yet: gym leader and champion battle themes, rival and Oak cutscenes, bicycle, surfing, Jessie & James, the heal jingle, and the title screen.
+Not handled yet: the champion battle theme, rival and Oak cutscenes, bicycle, surfing, Jessie & James, the heal jingle, and the title screen.
 
 ## Requirements
 

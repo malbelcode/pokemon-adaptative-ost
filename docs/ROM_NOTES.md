@@ -98,10 +98,10 @@ Bank 0x08 (AUDIO_2, battle):
 
 | Constant | id | Used by |
 | --- | --- | --- |
-| MUSIC_GYM_LEADER_BATTLE | 0xEA | — |
-| MUSIC_TRAINER_BATTLE | 0xED | — |
-| MUSIC_WILD_BATTLE | 0xF0 | — |
-| MUSIC_FINAL_BATTLE | 0xF3 | — |
+| MUSIC_GYM_LEADER_BATTLE | 0xEA | Lua battle music (`GYM_LEADER`) |
+| MUSIC_TRAINER_BATTLE | 0xED | Lua battle music (`TRAINER`) |
+| MUSIC_WILD_BATTLE | 0xF0 | Lua battle music (`WILD`) |
+| MUSIC_FINAL_BATTLE | 0xF3 | not used: also `MUSIC_ROUTES3` (bank 0x02) |
 | MUSIC_DEFEATED_TRAINER | 0xF6 (246) | Lua victory detector |
 | MUSIC_DEFEATED_WILD_MON | 0xF9 (249) | Lua victory detector |
 | MUSIC_DEFEATED_GYM_LEADER | 0xFC (252) | Lua victory detector |
@@ -118,7 +118,8 @@ Bank 0x1F (AUDIO_3), from Oak's Lab on:
 | MUSIC_MEET_FEMALE_TRAINER | 0xF8 | Lua trainer intro (`FEMALE`) |
 | MUSIC_MEET_MALE_TRAINER | 0xFB | Lua trainer intro (`MALE`) |
 
-Collision that matters: 0xFB is both `MUSIC_MEET_MALE_TRAINER` (bank 0x1F) and
+Collisions that matter: 0xF3 is both `MUSIC_FINAL_BATTLE` (bank 0x08) and `MUSIC_ROUTES3`
+(bank 0x02). 0xEA, 0xED and 0xF0 appear in no other known bank. 0xFB is both `MUSIC_MEET_MALE_TRAINER` (bank 0x1F) and
 `MUSIC_INDIGO_PLATEAU` (bank 0x02). The Lua script only looks for trainer intro ids for
 180 frames after the trainer-spotted flag.
 
