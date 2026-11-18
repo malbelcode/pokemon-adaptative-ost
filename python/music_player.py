@@ -9,8 +9,12 @@ from pathlib import Path
 class MusicPlayer:
     SOCKET_PATH = "/tmp/pokemon-adaptive-ost-mpv.sock"
 
-    def __init__(self, volume=70):
+    def __init__(self, volume=70, socket_path=SOCKET_PATH, name="MPV"):
         self.volume = volume
+        self.socket_path = socket_path
+        # Log tag, so a second player (fanfares) is told apart from the music.
+        self.name = name
+        self.paused = False
         self.process = None
         self.connection = None
         self.reader = None
@@ -25,14 +29,14 @@ class MusicPlayer:
     def start(self):
         """Start MPV in idle mode with IPC enabled."""
 
-        socket_path = Path(self.SOCKET_PATH)
+        socket_path = Path(self.socket_path)
 
         if socket_path.exists():
             socket_path.unlink()
 
         self.process = subprocess.Popen([
             "mpv",
-            f"--input-ipc-server={self.SOCKET_PATH}",
+            f"--input-ipc-server={self.socket_path}",
             "--no-video",
             "--idle=yes",
             "--loop-file=inf",
@@ -50,7 +54,7 @@ class MusicPlayer:
 
         self.connection = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         self.connection.settimeout(2)
-        self.connection.connect(self.SOCKET_PATH)
+        self.connection.connect(self.socket_path)
 
         self.reader = self.connection.makefile(
             "r",
@@ -61,7 +65,7 @@ class MusicPlayer:
             socket.SOCK_STREAM
         )
 
-        self.event_connection.connect(self.SOCKET_PATH)
+        self.event_connection.connect(self.socket_path)
 
         self.event_thread = threading.Thread(
             target=self._listen_for_events,
@@ -70,7 +74,7 @@ class MusicPlayer:
 
         self.event_thread.start()
 
-        print("[MPV] Music player started")
+        print(f"[{self.name}] Player started")
 
     def send_command(self, command):
         """Send a command and wait for its corresponding response."""
@@ -103,7 +107,7 @@ class MusicPlayer:
             try:
                 response = json.loads(line)
             except json.JSONDecodeError:
-                print(f"[MPV] Invalid IPC response: {line!r}")
+                print(f"[{self.name}] Invalid IPC response: {line!r}")
                 continue
 
             # Ignore asynchronous notifications.
@@ -159,26 +163,34 @@ class MusicPlayer:
         track = Path(track).resolve()
 
         if not track.is_file():
-            print(f"[MPV] Track not found: {track}")
+            print(f"[{self.name}] Track not found: {track}")
             return
 
         loop_mode = "inf" if loop else "no"
         self.send_command(["set_property", "loop-file", loop_mode])
         self.send_command(["loadfile", str(track), "replace"])
 
-        print(f"[MPV] Playing: {track.name}")
+        print(f"[{self.name}] Playing: {track.name}")
 
     def set_paused(self, paused):
-        """Pause or resume playback, keeping the current position."""
+        """Pause or resume playback, keeping the current position.
 
+        mpv keeps the pause state across loadfile, so a track loaded while paused
+        waits until playback is resumed.
+        """
+
+        if paused == self.paused:
+            return
+
+        self.paused = paused
         self.send_command(["set_property", "pause", paused])
-        print("[MPV] Paused" if paused else "[MPV] Resumed")
+        print(f"[{self.name}] Paused" if paused else f"[{self.name}] Resumed")
 
     def stop(self):
         """Stop current playback."""
 
         self.send_command(["stop"])
-        print("[MPV] Playback stopped")
+        print(f"[{self.name}] Playback stopped")
 
     def set_volume(self, volume):
         """Change playback volume."""
@@ -196,13 +208,13 @@ class MusicPlayer:
             try:
                 self.send_command(["quit"])
             except (ConnectionError, OSError, RuntimeError, TimeoutError) as error:
-                print(f"[MPV] Graceful shutdown failed: {error}")
+                print(f"[{self.name}] Graceful shutdown failed: {error}")
 
         if self.process:
             try:
                 self.process.wait(timeout=5)
             except subprocess.TimeoutExpired:
-                print("[MPV] Shutdown timed out; terminating process")
+                print(f"[{self.name}] Shutdown timed out; terminating process")
                 self.process.terminate()
                 self.process.wait(timeout=5)
 
