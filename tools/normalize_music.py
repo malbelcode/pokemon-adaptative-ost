@@ -36,6 +36,11 @@ OST_PARTS = {
 UNIDENTIFIED_DIR = "unidentified"
 ZOPHAR_UNIDENTIFIED = ["46", "50"] + [str(n) for n in range(57, 99)]
 
+# Canonical numbers the game never plays as music (intro sound effects, the Red/Blue
+# opening, unused songs). They are renamed if present, but may be deleted: their
+# absence is reported as "not needed", not "missing". Same for the unidentified jingles.
+NOT_NEEDED = {"01", "03", "48", "49", "50", "51", "52", "53", "54", "55"}
+
 # (number, canonical title, zophar file stem or None, soundtrack title or None)
 # Numbers 01-55 follow the soundtrack's order; 56+ exist only in the zophar set.
 TRACKS = [
@@ -103,12 +108,14 @@ TRACKS = [
     ("55", "Ending Theme (Unused)", None, "Ending Theme (Unused)"),
     ("56", "Pokemon Recovery", "18 Pokemon Recovery", None),
     ("57", "Jigglypuff's Song", "33 Jigglypuff's Song", None),
-    ("58", "Item Fanfare", "51 Item Fanfare", None),
-    ("59", "Pokemon Received Fanfare", "52 Pokemon Received Fanfare", None),
-    ("60", "Level Up Fanfare", "53 Level Up Fanfare", None),
-    ("61", "Pokemon Capture Fanfare", "54 Pokemon Capture Fanfare", None),
-    ("62", "Pokedex Fanfare 1", "55 Pokedex Fanfare 1", None),
-    ("63", "Pokedex Fanfare 2", "56 Pokedex Fanfare 2", None),
+    # Zophar's fanfare titles are wrong. These names come from matching each
+    # recording's melody with the game's sound effect notes (docs/ROM_NOTES.md).
+    ("58", "Level Up Fanfare", "51 Item Fanfare", None),
+    ("59", "Pokemon Caught Fanfare", "52 Pokemon Received Fanfare", None),
+    ("60", "Item Fanfare", "53 Level Up Fanfare", None),
+    ("61", "Hidden Item Fanfare", "54 Pokemon Capture Fanfare", None),
+    ("62", "Pokedex Rating Fanfare", "55 Pokedex Fanfare 1", None),
+    ("63", "Key Item Fanfare", "56 Pokedex Fanfare 2", None),
 ]
 
 
@@ -153,7 +160,7 @@ def main():
     group.add_argument("--revert", action="store_true", help="restore the original names")
     args = parser.parse_args()
 
-    counts = {"rename": 0, "done": 0, "missing": 0}
+    counts = {"rename": 0, "done": 0, "not needed": 0, "missing": 0}
 
     for directory, original, canonical in plan():
         source, target = (canonical, original) if args.revert else (original, canonical)
@@ -166,6 +173,8 @@ def main():
         if source_path is None:
             if target_path is not None:
                 counts["done"] += 1
+            elif canonical.startswith(UNIDENTIFIED_DIR + "/") or canonical[:2] in NOT_NEEDED:
+                counts["not needed"] += 1
             else:
                 counts["missing"] += 1
                 print(f"[MISSING] {directory.relative_to(MUSIC_DIR)}: neither {source!r} nor {target!r}")
@@ -195,7 +204,8 @@ def main():
             print(f"[UNMAPPED] {directory.relative_to(MUSIC_DIR)}: {name}")
 
     verb = "renamed" if args.apply or args.revert else "to rename (dry run, pass --apply)"
-    print(f"\n{counts['rename']} {verb}, {counts['done']} already done, {counts['missing']} missing")
+    print(f"\n{counts['rename']} {verb}, {counts['done']} already done, "
+          f"{counts['not needed']} not needed and absent, {counts['missing']} missing")
 
 
 if __name__ == "__main__":

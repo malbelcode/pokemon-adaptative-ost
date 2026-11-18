@@ -13,19 +13,33 @@ Other languages use different RAM addresses. See [docs/ARCHITECTURE.md](docs/ARC
 
 | Situation in game                        | Music played                                                  |
 | ---------------------------------------- | ------------------------------------------------------------- |
-| Walking on any map (240 of 249 maps)     | That map's theme, looked up in `data/map_music.json`          |
-| Safari Zone maps (9)                     | `music/locations/default.wav`, a synthesized placeholder      |
+| Walking on any map (all 249 maps)        | That map's theme, looked up in `data/map_music.json`. The Safari Zone uses `28 Evolution.mp3`, the same song in Gen 1. |
 | A trainer spots you                      | That trainer's "A Trainer Appears" theme (boy, girl or bad guy), until the battle starts |
 | Wild battle                              | `12 Battle (Wild Pokemon).mp3`, from the start of the battle transition animation |
 | Trainer battle                           | `09 Battle (Trainer).mp3`, from the start of the transition    |
 | Gym leader or Elite Four battle          | `20 Battle (Gym Leader).mp3`, from the start of the transition |
-| Champion battle                          | `09 Battle (Trainer).mp3`, from the battle screen (not detected earlier yet) |
+| Champion battle                          | `45 Final Battle (Rival).mp3`, from the start of the transition |
 | Victory fanfare (wild / trainer / gym)   | Matching `Victory (...)` track, played once                   |
 | Back to the overworld                    | The current map's theme again                                 |
+| Healing at a Pokémon Center              | `56 Pokemon Recovery.mp3` once (zophar only; used with any source), then the map's theme |
+| Jigglypuff sings (Pewter Pokémon Center) | `57 Jigglypuff's Song.mp3` once (zophar only), then the map's theme |
+| Riding the bicycle / surfing             | `31 Cycling.mp3` / `41 The Sea.mp3`, across maps, until you get off |
+| Professor Oak / your rival appears       | `06 Professor Oak.mp3` / `08 A Rival Appears.mp3`, until the game changes song |
+| The museum guide                         | `18 Guide.mp3`                                                |
+| Jessie & James appear                    | `25 Theme of Jessie and James.mp3`, until the battle starts   |
+| Pikachu surfing (Summer Beach House)     | `39 Pikachu's Beach.mp3`                                      |
+| A Pokémon evolves                        | `28 Evolution.mp3`, then the map's theme                      |
+| Intro movie / title screen               | `02 Opening Movie.mp3` / `04 Title Screen.mp3`                |
+| Hall of Fame / credits                   | `46 Hall of Fame.mp3` / `47 Ending Theme.mp3`                 |
+| Item, key item or hidden item received   | `60 Item Fanfare.mp3` / `63 Key Item Fanfare.mp3` / `61 Hidden Item Fanfare.mp3` (also when an evolution ends) |
+| Level up / Pokémon caught                | `58 Level Up Fanfare.mp3` / `59 Pokemon Caught Fanfare.mp3`   |
+| Oak rates your Pokédex                   | One of the fanfares, or `62 Pokedex Rating Fanfare.mp3`       |
 | Loading a savestate (F1–F9, rewind)      | Switches to the music of the place in the loaded state        |
 | mGBA paused, in the background, or closed | Music pauses within ~0.5 s and resumes where it stopped       |
 
-Not handled yet: the champion battle theme, rival and Oak cutscenes, bicycle, surfing, Jessie & James, the heal jingle, and the title screen.
+These follow the song the game itself starts, so they begin and end when the game's own
+music would. Fanfares (zophar only; used with any source) pause the music, as the game
+does, and it resumes where it stopped when the game's fanfare ends.
 
 ## Requirements
 
@@ -48,6 +62,10 @@ Not handled yet: the champion battle theme, rival and Oak cutscenes, bicycle, su
   python3 tools/normalize_music.py           # dry run: shows every rename
   python3 tools/normalize_music.py --apply   # renames (undo with --revert)
   ```
+
+  Some files are never played as music: the soundtrack's 01, 03 and 48–55, and zophar's
+  unnamed jingles (`46.mp3`, `50.mp3`, `57.mp3`–`98.mp3`). You can delete them; the tool
+  reports them as "not needed".
 
 ## Quick start
 
@@ -74,6 +92,8 @@ Not handled yet: the champion battle theme, rival and Oak cutscenes, bicycle, su
    ```text
    [MAP] Pallet Town [ID: 0] [MUSIC: MUSIC_PALLET_TOWN]
    [MPV] Playing: 05 Pallet Town.mp3
+   [MUSIC] Game started song 0xf0 (MUSIC_WILD_BATTLE)
+   [BATTLE] Battle music: MUSIC_WILD_BATTLE
    [BATTLE] WILD_BATTLE [RESULT: 0]
    ```
 
@@ -177,7 +197,7 @@ and compare the printed values with what you expect. See
 | `RuntimeError: MPV IPC socket was not created` | mpv is missing or failed to start. Run `mpv --version`. |
 | `OSError: [Errno 98] Address already in use` | Another controller is still running on port 8765. |
 | Music fades out and restarts every ~3 minutes (1–1.5 min with the `ost` source) | Known: every MP3 has a fade-out at the end and is looped whole. |
-| Pallet Town music on the title screen | Known: the script trusts `wCurMap` before a save is loaded. |
+| Viridian/Pewter music on the title screen after a soft reset there | Known: `wCurMap` keeps the old map, and the title song shares its id with that music. |
 
 ## Credits
 

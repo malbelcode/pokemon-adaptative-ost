@@ -6,6 +6,7 @@ local ADDRESSES = {
     curMap = 0xD362,
     battleResult = 0xCF0B,
     channelSoundIDs = 0xC026,
+    audioROMBank = 0xC0EF,
     trainerSpriteOffset = 0xCD3D
 }
 
@@ -17,7 +18,7 @@ local previous = {
     curMap = nil,
     battleResult = nil,
     channelKey = nil,
-    victoryDetected = false,
+    sfxId = nil,
     trainerSpriteOffset = nil,
     frame = nil
 }
@@ -27,26 +28,10 @@ local previous = {
 local HEARTBEAT_FRAMES = 10
 local framesSinceHeartbeat = 0
 
--- Trainer intro songs (audio bank 0x1F), read from the ROM's music headers.
--- When a trainer spots the player, the game starts one of these on channels 0-2.
--- Ids are bank-relative: 0xFB is also Indigo Plateau's map song (bank 0x02), so
--- only look for them for a short window after the trainer-spotted flag.
-local TRAINER_INTRO_SONGS = {
-    [0xF5] = "EVIL",
-    [0xF8] = "FEMALE",
-    [0xFB] = "MALE"
-}
-local TRAINER_INTRO_WINDOW = 180 -- frames (3 s)
-
--- Battle songs (audio bank 0x08). The game starts them when the battle transition
--- animation begins, before wIsInBattle changes. MUSIC_FINAL_BATTLE (0xF3) is left
--- out: 0xF3 is also MUSIC_ROUTES3, the map song of Routes 3-10 and 16-22.
-local BATTLE_SONGS = {
-    [0xEA] = "GYM_LEADER",
-    [0xED] = "TRAINER",
-    [0xF0] = "WILD"
-}
-local trainerIntroFramesLeft = 0
+-- Song detection: the script only reports the song id the game starts
+-- (MUSIC_CHANGED) and the sound effect on channel 4 (SFX_CHANGED, with the audio
+-- bank). The controller maps ids to tracks, because ids are bank-relative and
+-- need context (map, battle, trainer spotted) to be read.
 
 --------------------------------------------------
 -- TCP CONNECTION
@@ -138,6 +123,16 @@ local function sendBattleChanged(value, map, result)
     sendEvent(message)
 end
 
+local function sendSfxChanged(soundId, bank)
+    local message = string.format(
+        '{"event":"SFX_CHANGED","sound_id":%d,"bank":%d}\n',
+        soundId,
+        bank
+    )
+
+    sendEvent(message)
+end
+
 local function sendMusicChanged(musicId)
     local message = string.format(
         '{"event":"MUSIC_CHANGED","music_id":%d}\n',
@@ -158,9 +153,8 @@ local function sendStateLoaded()
     previous.curMap = map
     previous.battleResult = result
     previous.channelKey = nil
-    previous.victoryDetected = false
+    previous.sfxId = nil
     previous.trainerSpriteOffset = emu:read8(ADDRESSES.trainerSpriteOffset)
-    trainerIntroFramesLeft = 0
 
     console:log("[OST] State loaded, resyncing music")
 
@@ -230,87 +224,37 @@ callbacks:add("frame", function()
         previous.isInBattle = battle
     end
 
-    -- Detect victory music from the first three music channels
-    local channels = {}
-    for i = 0, 2 do
-        channels[i + 1] = emu:read8(ADDRESSES.channelSoundIDs + i)
-    end
-
-    local channelKey = table.concat(channels, ",")
+    -- Report each new song. Every song uses music channels 0 and 1, and the audio
+    -- engine writes the song id to each channel it uses, so the same new id on
+    -- both means the game started that song. Channels 4-7 are sound effects.
+    local ch0 = emu:read8(ADDRESSES.channelSoundIDs)
+    local ch1 = emu:read8(ADDRESSES.channelSoundIDs + 1)
+    local channelKey = ch0 .. "," .. ch1
 
     if channelKey ~= previous.channelKey then
-        local victoryType = nil
-
-        if channels[1] == channels[2] and channels[2] == channels[3] then
-            if channels[1] == 249 then
-                victoryType = "WILD_BATTLE"
-            elseif channels[1] == 246 then
-                victoryType = "TRAINER_BATTLE"
-            elseif channels[1] == 252 then
-                victoryType = "GYM_LEADER_BATTLE"
-            end
-        end
-
-        if channels[1] == channels[2] and channels[2] == channels[3] then
-            local battleMusic = BATTLE_SONGS[channels[1]]
-
-            if battleMusic then
-                console:log("[BATTLE] Battle music started: " .. battleMusic)
-
-                sendEvent(string.format(
-                    '{"event":"BATTLE_MUSIC_STARTED","battle_music":"%s"}\n',
-                    battleMusic
-                ))
-            end
-        end
-
-        if victoryType and not previous.victoryDetected then
-            console:log("[VICTORY] " .. victoryType)
-
-            sendEvent(string.format(
-                '{"event":"VICTORY_STARTED","victory_type":"%s"}\n',
-                victoryType
-            ))
-
-            previous.victoryDetected = true
-        elseif not victoryType then
-            previous.victoryDetected = false
-        end
-
         previous.channelKey = channelKey
+
+        if ch0 == ch1 and ch0 ~= 0 then
+            sendMusicChanged(ch0)
+        end
+    end
+
+    -- Report the sound effect on channel 4 (the first sound-effect channel; every
+    -- fanfare starts there). The engine sets it to 0 when the sound ends.
+    local sfx = emu:read8(ADDRESSES.channelSoundIDs + 4)
+
+    if sfx ~= previous.sfxId then
+        previous.sfxId = sfx
+        sendSfxChanged(sfx, emu:read8(ADDRESSES.audioROMBank))
     end
 
     local trainerOffset = emu:read8(ADDRESSES.trainerSpriteOffset)
 
     if trainerOffset == 255 and previous.trainerSpriteOffset ~= 255 then
         console:log("[TRAINER] Trainer spotted!")
-        trainerIntroFramesLeft = TRAINER_INTRO_WINDOW
+
+        sendEvent('{"event":"TRAINER_SPOTTED"}\n')
     end
 
     previous.trainerSpriteOffset = trainerOffset
-
-    -- Wait for the game to start a trainer intro song, then report which one.
-    if trainerIntroFramesLeft > 0 then
-        trainerIntroFramesLeft = trainerIntroFramesLeft - 1
-
-        local intro = nil
-
-        if battle == 0 and channels[1] == channels[2] and channels[2] == channels[3] then
-            intro = TRAINER_INTRO_SONGS[channels[1]]
-        end
-
-        if intro then
-            console:log("[TRAINER] Trainer intro music: " .. intro)
-
-            sendEvent(string.format(
-                '{"event":"TRAINER_SPOTTED","trainer_music":"%s"}\n',
-                intro
-            ))
-
-            trainerIntroFramesLeft = 0
-        elseif battle ~= 0 or trainerIntroFramesLeft == 0 then
-            console:log("[TRAINER] No trainer intro music started; keeping current music")
-            trainerIntroFramesLeft = 0
-        end
-    end
 end)
