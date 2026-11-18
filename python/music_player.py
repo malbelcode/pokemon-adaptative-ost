@@ -18,6 +18,9 @@ class MusicPlayer:
         self.event_connection = None
         self.event_thread = None
         self.on_track_end = None
+        # send_command is called from the controller thread and from the mpv event
+        # thread (track-end callback), so request/response pairs must not interleave.
+        self.command_lock = threading.Lock()
 
     def start(self):
         """Start MPV in idle mode with IPC enabled."""
@@ -72,6 +75,10 @@ class MusicPlayer:
     def send_command(self, command):
         """Send a command and wait for its corresponding response."""
 
+        with self.command_lock:
+            return self._send_command(command)
+
+    def _send_command(self, command):
         if not self.connection:
             raise RuntimeError("MPV is not connected")
 
@@ -160,6 +167,12 @@ class MusicPlayer:
         self.send_command(["loadfile", str(track), "replace"])
 
         print(f"[MPV] Playing: {track.name}")
+
+    def set_paused(self, paused):
+        """Pause or resume playback, keeping the current position."""
+
+        self.send_command(["set_property", "pause", paused])
+        print("[MPV] Paused" if paused else "[MPV] Resumed")
 
     def stop(self):
         """Stop current playback."""

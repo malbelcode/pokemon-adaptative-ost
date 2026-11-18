@@ -1,0 +1,7 @@
+{
+    "default": "zophar",
+    "sources": {
+        "zophar": "music/zophar",
+        "ost": "music/ost"
+    }
+}

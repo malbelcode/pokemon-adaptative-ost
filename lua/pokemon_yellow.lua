@@ -18,8 +18,35 @@ local previous = {
     battleResult = nil,
     channelKey = nil,
     victoryDetected = false,
-    trainerSpriteOffset = nil
+    trainerSpriteOffset = nil,
+    frame = nil
 }
+
+-- Sent every HEARTBEAT_FRAMES frames. Frames stop while mGBA is paused (also when
+-- it pauses in the background), so the controller pauses the music when they stop.
+local HEARTBEAT_FRAMES = 10
+local framesSinceHeartbeat = 0
+
+-- Trainer intro songs (audio bank 0x1F), read from the ROM's music headers.
+-- When a trainer spots the player, the game starts one of these on channels 0-2.
+-- Ids are bank-relative: 0xFB is also Indigo Plateau's map song (bank 0x02), so
+-- only look for them for a short window after the trainer-spotted flag.
+local TRAINER_INTRO_SONGS = {
+    [0xF5] = "EVIL",
+    [0xF8] = "FEMALE",
+    [0xFB] = "MALE"
+}
+local TRAINER_INTRO_WINDOW = 180 -- frames (3 s)
+
+-- Battle songs (audio bank 0x08). The game starts them when the battle transition
+-- animation begins, before wIsInBattle changes. MUSIC_FINAL_BATTLE (0xF3) is left
+-- out: 0xF3 is also MUSIC_ROUTES3, the map song of Routes 3-10 and 16-22.
+local BATTLE_SONGS = {
+    [0xEA] = "GYM_LEADER",
+    [0xED] = "TRAINER",
+    [0xF0] = "WILD"
+}
+local trainerIntroFramesLeft = 0
 
 --------------------------------------------------
 -- TCP CONNECTION
@@ -120,6 +147,32 @@ local function sendMusicChanged(musicId)
     sendEvent(message)
 end
 
+-- A savestate load (or rewind/reset) restores mGBA's frame counter, so the
+-- frame number jumps instead of advancing by one. Resync the controller then.
+local function sendStateLoaded()
+    local battle = emu:read8(ADDRESSES.isInBattle)
+    local map = emu:read8(ADDRESSES.curMap)
+    local result = emu:read8(ADDRESSES.battleResult)
+
+    previous.isInBattle = battle
+    previous.curMap = map
+    previous.battleResult = result
+    previous.channelKey = nil
+    previous.victoryDetected = false
+    previous.trainerSpriteOffset = emu:read8(ADDRESSES.trainerSpriteOffset)
+    trainerIntroFramesLeft = 0
+
+    console:log("[OST] State loaded, resyncing music")
+
+    sendEvent(string.format(
+        '{"event":"STATE_LOADED","map_id":%d,"state":"%s","value":%d,"battle_result":%d}\n',
+        map,
+        getBattleState(battle),
+        battle,
+        result
+    ))
+end
+
 --------------------------------------------------
 -- INITIAL GAME STATE
 --------------------------------------------------
@@ -136,6 +189,8 @@ previous.battleResult = initialResult
 
 sendBattleChanged(initialBattle, initialMap, initialResult)
 
+previous.frame = emu:currentFrame()
+
 --------------------------------------------------
 -- GAME STATE MONITORING
 --------------------------------------------------
@@ -143,6 +198,22 @@ sendBattleChanged(initialBattle, initialMap, initialResult)
 console:log("[OST] Game-state monitoring started")
 
 callbacks:add("frame", function()
+    framesSinceHeartbeat = framesSinceHeartbeat + 1
+
+    if framesSinceHeartbeat >= HEARTBEAT_FRAMES then
+        sendEvent('{"event":"HEARTBEAT"}\n')
+        framesSinceHeartbeat = 0
+    end
+
+    local frame = emu:currentFrame()
+    local stateLoaded = previous.frame ~= nil and frame ~= previous.frame + 1
+    previous.frame = frame
+
+    if stateLoaded then
+        sendStateLoaded()
+        return
+    end
+
     local battle = emu:read8(ADDRESSES.isInBattle)
     local map = emu:read8(ADDRESSES.curMap)
 
@@ -180,6 +251,19 @@ callbacks:add("frame", function()
             end
         end
 
+        if channels[1] == channels[2] and channels[2] == channels[3] then
+            local battleMusic = BATTLE_SONGS[channels[1]]
+
+            if battleMusic then
+                console:log("[BATTLE] Battle music started: " .. battleMusic)
+
+                sendEvent(string.format(
+                    '{"event":"BATTLE_MUSIC_STARTED","battle_music":"%s"}\n',
+                    battleMusic
+                ))
+            end
+        end
+
         if victoryType and not previous.victoryDetected then
             console:log("[VICTORY] " .. victoryType)
 
@@ -200,9 +284,33 @@ callbacks:add("frame", function()
 
     if trainerOffset == 255 and previous.trainerSpriteOffset ~= 255 then
         console:log("[TRAINER] Trainer spotted!")
-
-        sendEvent('{"event":"TRAINER_SPOTTED"}\n')
+        trainerIntroFramesLeft = TRAINER_INTRO_WINDOW
     end
 
     previous.trainerSpriteOffset = trainerOffset
+
+    -- Wait for the game to start a trainer intro song, then report which one.
+    if trainerIntroFramesLeft > 0 then
+        trainerIntroFramesLeft = trainerIntroFramesLeft - 1
+
+        local intro = nil
+
+        if battle == 0 and channels[1] == channels[2] and channels[2] == channels[3] then
+            intro = TRAINER_INTRO_SONGS[channels[1]]
+        end
+
+        if intro then
+            console:log("[TRAINER] Trainer intro music: " .. intro)
+
+            sendEvent(string.format(
+                '{"event":"TRAINER_SPOTTED","trainer_music":"%s"}\n',
+                intro
+            ))
+
+            trainerIntroFramesLeft = 0
+        elseif battle ~= 0 or trainerIntroFramesLeft == 0 then
+            console:log("[TRAINER] No trainer intro music started; keeping current music")
+            trainerIntroFramesLeft = 0
+        end
+    end
 end)

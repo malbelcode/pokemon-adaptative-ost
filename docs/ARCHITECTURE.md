@@ -17,13 +17,16 @@
 Three processes run during play:
 
 1. **mGBA + `lua/pokemon_yellow.lua`.** It reads a few WRAM bytes on every frame callback
-   and sends a JSON event when one of them changes. It holds no music logic.
+   and sends a JSON event when one of them changes, plus a `HEARTBEAT` every 10 frames.
+   It holds no music logic.
 2. **`python/controller.py`.** A blocking TCP server that accepts one mGBA connection at a
    time and feeds each line to `AdaptiveOST.handle_event`. `AdaptiveOST` decides what
-   should play.
+   should play. `read_events` reads with a 0.1 s timeout so it can pause the music when
+   messages stop.
 3. **`mpv`.** Started by `MusicPlayer.start()` with `--idle=yes --no-video
    --input-ipc-server=/tmp/pokemon-adaptive-ost-mpv.sock`. It is controlled with
-   `loadfile … replace` and `set_property loop-file`.
+   `loadfile … replace`, `set_property loop-file` and `set_property pause`.
+   `send_command` holds a lock, because the mpv event thread also sends commands.
 
 ## Lua → Python protocol
 
@@ -34,7 +37,10 @@ Newline-delimited JSON over TCP to `127.0.0.1:8765`. Each line is one event:
 | `MAP_CHANGED` | At script start, and whenever `wCurMap` changes | `map_id` (int, 0–248) |
 | `BATTLE_CHANGED` | At script start, and whenever `wIsInBattle` changes | `state`, `value`, `map_id`, `battle_result` |
 | `VICTORY_STARTED` | Music channels 0–2 all switch to a victory song id | `victory_type` |
-| `TRAINER_SPOTTED` | The byte at 0xCD3D changes to 255 (a trainer has seen the player) | none |
+| `TRAINER_SPOTTED` | The byte at 0xCD3D changes to 255 (a trainer has seen the player), and within the next 180 frames, while not in battle, music channels 0–2 all hold a trainer intro song id. If no intro song starts (rival, scripted fights), nothing is sent. | `trainer_music`: `MALE` (0xFB), `FEMALE` (0xF8) or `EVIL` (0xF5) |
+| `BATTLE_MUSIC_STARTED` | Music channels 0–2 all switch to a battle song id (bank 0x08): 0xEA, 0xED or 0xF0. The game starts it when the battle transition animation begins, before `wIsInBattle` changes. 0xF3 (final battle) is not used because it is also `MUSIC_ROUTES3`. | `battle_music`: `GYM_LEADER`, `TRAINER` or `WILD` |
+| `HEARTBEAT` | Every 10 frames (~0.17 s at full speed). Stops while mGBA is paused. | none |
+| `STATE_LOADED` | `emu:currentFrame()` does not advance by exactly 1 since the last frame (savestate load, rewind or reset; mGBA restores the frame counter from the state). That frame's other checks are skipped and all `previous` values are re-read. | `map_id`, `state`, `value`, `battle_result` |
 | `MUSIC_CHANGED` | Defined in Lua (`sendMusicChanged`) but never sent | `music_id` |
 
 `state` is derived from `wIsInBattle`:
@@ -72,18 +78,37 @@ State: `current_state` (last `BATTLE_CHANGED.state`), `current_map`, `current_tr
 | Event | Action |
 | --- | --- |
 | `MAP_CHANGED` | Store `current_map`. If `current_state` is `None` or `OVERWORLD`, play the map's track. |
-| `BATTLE_CHANGED` with `WILD_BATTLE` / `TRAINER_BATTLE` | Play `BATTLE_TRACKS[state]`, looped. |
-| `BATTLE_CHANGED` with `OVERWORLD` | Play the current map's track. This cuts off a victory fanfare that is still playing, as the game does. |
+| `BATTLE_MUSIC_STARTED` | Play `BATTLE_MUSIC_TRACKS[battle_music]` (`12`, `09` or `20 Battle (…)`), looped, set `battle_music_started`, and log `[BATTLE]`. |
+| `BATTLE_CHANGED` with `WILD_BATTLE` / `TRAINER_BATTLE` | Keep the music if `battle_music_started`. Otherwise (champion, or a missed id) play `BATTLE_TRACKS[state]`, looped. |
+| `BATTLE_CHANGED` with `OVERWORLD` | Clear `battle_music_started` and play the current map's track. This cuts off a victory fanfare that is still playing, as the game does. |
 | `BATTLE_CHANGED` with `LOST_BATTLE` / `UNKNOWN` | Only stores the state. The current track keeps playing. |
 | `VICTORY_STARTED` | Play `VICTORY_TRACKS[type]` once (`loop-file=no`). |
-| `TRAINER_SPOTTED` | Not handled yet. Logged as `[EVENT] Unknown event`. |
+| `TRAINER_SPOTTED` | Play `TRAINER_INTRO_TRACKS[trainer_music]` (`17`/`23`/`38 A Trainer Appears (…)`), looped, and log `[TRAINER]`. `current_state` is not changed. The following `BATTLE_CHANGED` with `TRAINER_BATTLE` switches to the battle theme. |
+| `STATE_LOADED` | Set `current_map` and `current_state`, clear `victory_playing`, log `[STATE]`. Play the battle track for `WILD_BATTLE` / `TRAINER_BATTLE`, or the map's track otherwise. |
+| `HEARTBEAT` | Ignored by `handle_event`. Like every message, it resumes paused music. |
+| No message for 0.5 s (`HEARTBEAT_TIMEOUT`) | Pause mpv and log `[PAUSE]`. mGBA runs no frames while paused, including when its "pause when inactive" option pauses it in the background. The next message resumes playback at the same position. |
+| mGBA disconnects | Pause mpv. The next connection's first message resumes it. |
 | mpv `end-file` with `reason: eof` | If `OVERWORLD`, play the map's track. This callback runs on the mpv event thread. |
 
 `play_track` skips the request when the track is already the current one, so repeated
 events don't restart the song.
 
-Map track lookup: `data/map_music.json[str(map_id)].track`, relative to the repository root.
-If it is `null`, `music/locations/default.wav` plays instead.
+Map track lookup: `data/map_music.json[str(map_id)].track` is a canonical track name, which
+`TrackResolver` (`python/music_sources.py`) turns into a file in the selected source.
+If it is `null`, or the name is in no source, `music/locations/default.wav` plays instead.
+
+## Music sources
+
+`config/music_sources.json` maps a source name to a folder and names the default.
+`controller.py --source NAME` overrides the default for one run. All folders use the
+same canonical file names (`NN Title.mp3`), set by `tools/normalize_music.py`, so switching
+a source changes only the folder. `TrackResolver.resolve(name)` looks in the selected
+source first, then in the others in config order, and logs `[TRACK]` when it falls back
+or finds nothing. Results are cached per name.
+
+Numbers 01–55 follow the official soundtrack's order. 56–63 exist only in the zophar set
+(heal jingle, Jigglypuff, fanfares). Zophar's 44 unnamed 1–4 s jingles are in its
+`unidentified/` subfolder.
 
 ## Map → music registry
 
@@ -92,10 +117,10 @@ If it is `null`, `music/locations/default.wav` plays instead.
 ```text
 map_constants.asm  "map_const PALLET_TOWN, 10, 9 ; $00"   → id 0  ↔ PALLET_TOWN
 songs.asm          "db MUSIC_PALLET_TOWN, … ; PALLET_TOWN" → PALLET_TOWN ↔ MUSIC_PALLET_TOWN
-music_themes.json  "MUSIC_PALLET_TOWN": "04 Pallet Town's Theme.mp3"
+music_themes.json  "MUSIC_PALLET_TOWN": "05 Pallet Town.mp3"
                     ⇒ "0": {"name": "Pallet Town", "symbol": "PALLET_TOWN",
                             "music_id": "MUSIC_PALLET_TOWN",
-                            "track": "music/Pokemon Yellow (MP3).zophar/04 Pallet Town's Theme.mp3"}
+                            "track": "05 Pallet Town.mp3"}
 ```
 
 The `.asm` files come from the [pokeyellow](https://github.com/pret/pokeyellow)
@@ -128,20 +153,21 @@ raw song ids must also know the bank.
 
 | Path | Used by | Notes |
 | --- | --- | --- |
-| `music/Pokemon Yellow (MP3).zophar/` | registry, `VICTORY_TRACKS` | 98 files, 313 MB. Most are fixed 180 s renders with a fade-out in the last ~5 s. |
-| `music/battles/{wild,trainer}.mp3` | `BATTLE_TRACKS` | Byte-identical copies of zophar tracks 25 and 24 |
-| `music/locations/*.mp3` | nothing | Copies of zophar tracks 04, 19 and 32 |
+| `music/zophar/` | source `zophar` (default) | 98 files, 313 MB. 54 canonical tracks + `unidentified/` jingles. Most are fixed 180 s renders with a fade-out in the last ~5 s. |
+| `music/ost/` | source `ost` | 55 tracks, 181 MB, 48 kHz, real stereo panning, 1–1.5 min each with a fade-out in the last ~10 s |
+| `music/battles/{wild,trainer}.mp3` | nothing | Byte-identical copies of zophar `12` and `09` (old names 25, 24) |
+| `music/locations/*.mp3` | nothing | Copies of zophar `05`, `11` and `07` |
 | `music/locations/default.wav`, `music/battles/*.wav` | default location track | Placeholders from `generate_tracks.py` |
-| `music/Pokémon Yellow Soundtrack MP3/` | nothing | Another rip (stereo + mono), 362 MB |
 | `music/events/` | nothing | Empty |
 
 ## Known limitations
 
 In brief:
 
-- All trainer battles use the regular trainer theme.
+- The champion battle uses the regular trainer theme, starting at the battle screen. Its song id (0xF3) is shared with `MUSIC_ROUTES3`.
 - Tracks fade out and restart every 3 minutes.
 - The Lua script never reconnects.
-- The mpv event thread and the main thread share one IPC socket without a lock.
+- Pausing the music in the background depends on mGBA pausing itself
+  (`pauseOnFocusLost`). If mGBA keeps running in the background, the music keeps playing.
 - Read errors on the mGBA connection, mpv timeouts, and malformed events can stop the
   controller.

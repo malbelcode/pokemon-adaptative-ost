@@ -15,13 +15,17 @@ Other languages use different RAM addresses. See [docs/ARCHITECTURE.md](docs/ARC
 | ---------------------------------------- | ------------------------------------------------------------- |
 | Walking on any map (240 of 249 maps)     | That map's theme, looked up in `data/map_music.json`          |
 | Safari Zone maps (9)                     | `music/locations/default.wav`, a synthesized placeholder      |
-| Wild battle                              | `music/battles/wild.mp3`                                      |
-| Any trainer battle (gym leaders included) | `music/battles/trainer.mp3`                                   |
+| A trainer spots you                      | That trainer's "A Trainer Appears" theme (boy, girl or bad guy), until the battle starts |
+| Wild battle                              | `12 Battle (Wild Pokemon).mp3`, from the start of the battle transition animation |
+| Trainer battle                           | `09 Battle (Trainer).mp3`, from the start of the transition    |
+| Gym leader or Elite Four battle          | `20 Battle (Gym Leader).mp3`, from the start of the transition |
+| Champion battle                          | `09 Battle (Trainer).mp3`, from the battle screen (not detected earlier yet) |
 | Victory fanfare (wild / trainer / gym)   | Matching `Victory (...)` track, played once                   |
 | Back to the overworld                    | The current map's theme again                                 |
+| Loading a savestate (F1–F9, rewind)      | Switches to the music of the place in the loaded state        |
+| mGBA paused, in the background, or closed | Music pauses within ~0.5 s and resumes where it stopped       |
 
-Not handled yet: gym leader and champion battle themes, trainer "eyes meet" music, rival
-and Oak cutscenes, bicycle, surfing, Jessie & James, the heal jingle, and the title screen.
+Not handled yet: the champion battle theme, rival and Oak cutscenes, bicycle, surfing, Jessie & James, the heal jingle, and the title screen.
 
 ## Requirements
 
@@ -29,9 +33,21 @@ and Oak cutscenes, bicycle, surfing, Jessie & James, the heal jingle, and the ti
 - Python 3.10 or newer. Only the standard library is used.
 - `mpv` on `PATH` (`sudo apt install mpv`).
 - mGBA 0.10 or newer with Lua scripting (*Tools → Scripting…*).
-- The soundtrack MP3s, which are not included. The code expects the zophar rip at
-  `music/Pokemon Yellow (MP3).zophar/` with the original file names. See
-  `config/music_themes.json` and `python/controller.py` for the exact names.
+- For the music to pause when mGBA is in the background, enable mGBA's option to pause
+  when the window is inactive (`pauseOnFocusLost=1` in `~/.config/mgba/config.ini`). The
+  controller pauses the music whenever the game stops running frames.
+- The soundtrack MP3s, which are not included. Each of these folders works as a music
+  source (see [Choose the music source](#choose-the-music-source)):
+  - `music/zophar/`: the files of the zophar rip "Pokemon Yellow (MP3)"
+  - `music/ost/`: the files of "Part I - Stereo" from "Pokémon Yellow Soundtrack
+    MP3". Its "Part II - Mono" isn't needed: each mono file is a downmix of the stereo one.
+- After copying the MP3s in with their original names, rename them once to the shared
+  names the code uses:
+
+  ```sh
+  python3 tools/normalize_music.py           # dry run: shows every rename
+  python3 tools/normalize_music.py --apply   # renames (undo with --revert)
+  ```
 
 ## Quick start
 
@@ -57,7 +73,7 @@ and Oak cutscenes, bicycle, surfing, Jessie & James, the heal jingle, and the ti
 
    ```text
    [MAP] Pallet Town [ID: 0] [MUSIC: MUSIC_PALLET_TOWN]
-   [MPV] Playing: 04 Pallet Town's Theme.mp3
+   [MPV] Playing: 05 Pallet Town.mp3
    [BATTLE] WILD_BATTLE [RESULT: 0]
    ```
 
@@ -76,44 +92,68 @@ python/
   music_player.py           MusicPlayer: spawns mpv and talks to it over JSON IPC
   map_registry.py           map id → readable name, parsed from data/map_constants.asm
   generate_map_registry.py  Builds data/map_music.json (run after editing themes)
+  music_sources.py          Music source config + TrackResolver (canonical name → file)
   generate_tracks.py        Synthesizes the placeholder .wav tracks
   test_music_player.py      Manual smoke test: plays a generated melody through mpv
   mpv_test.py               Manual check against an mpv started by hand
 config/
-  music_themes.json         Game music constant (MUSIC_*) → MP3 file name
-data/
+  music_themes.json         Game music constant (MUSIC_*) → canonical track name
+  music_sources.json        Music source name → folder, and the default source
+data/                       pokeyellow files: see Credits
   map_constants.asm         From the pokeyellow disassembly: map symbols and ids
   songs.asm                 From pokeyellow: MapSongBanks, map → MUSIC_* constant
   music_constants.asm       From pokeyellow: list of music constants (reference only)
-  map_music.json            Generated: map id → name, symbol, music id, track path
+  map_music.json            Generated: map id → name, symbol, music id, track name
 music/                      Audio (not tracked; see Requirements)
 docs/
   ARCHITECTURE.md           How the pieces fit together, the protocol, RAM addresses
   ROM_NOTES.md              Verified RAM addresses, music id/bank table, audio measurements
 tools/
   rom_inspect.py            Static ROM checks: header, RAM reference counts, map song table
+  normalize_music.py        Renames the soundtrack sets to the shared track names
 ```
 
 ## Common tasks
 
+### Choose the music source
+
+Every source folder uses the same file names (for example `05 Pallet Town.mp3`), so a
+source is only a folder. The sources and the default are in `config/music_sources.json`:
+
+| Source | Folder | Notes |
+| --- | --- | --- |
+| `zophar` (default) | `music/zophar/` | 180 s renders, 44.1 kHz. Fades out every 3 minutes when looped. |
+| `ost` | `music/ost/` | Stereo, as the game sounds in mGBA. 48 kHz. Tracks are 1–1.5 min, so the fade comes sooner. |
+
+Change `"default"` in that file, or pick a source for one run:
+
+```sh
+cd python
+python3 controller.py --source ost
+```
+
+The controller logs `[TRACK] Music source: …` at start. If a song is missing from the
+selected source, it plays the same name from another source and logs it.
+
 ### Change which file a theme uses
 
 Edit `config/music_themes.json`. Keys are the `MUSIC_*` constants from
-`data/music_constants.asm`. Values are file names inside `music/Pokemon Yellow (MP3).zophar/`.
-Then regenerate the registry:
+`data/music_constants.asm`. Values are canonical track names, the same in every source
+(see the table in `tools/normalize_music.py`). Then regenerate the registry:
 
 ```sh
 cd python
 python3 generate_map_registry.py
 ```
 
-The generator stops with an error if a configured file does not exist. It also prints
-which themes still have no file. Today that is only `MUSIC_SAFARI_ZONE`.
+The generator stops with an error if a configured name exists in no source, and prints
+which sources lack it otherwise. It also prints which themes still have no file. Today that is only `MUSIC_SAFARI_ZONE`.
 
 ### Change battle or victory tracks
 
 These are hard-coded in `python/controller.py` (`BATTLE_TRACKS`, `VICTORY_TRACKS`,
-`DEFAULT_LOCATION_TRACK`).
+`DEFAULT_LOCATION_TRACK`). Battle and victory entries are canonical track names, resolved
+in the selected source.
 
 ### Check that mpv works
 
@@ -136,5 +176,23 @@ and compare the printed values with what you expect. See
 | `[OST] mGBA socket API unavailable` | Your mGBA build lacks Lua sockets. Use mGBA 0.10 or newer. |
 | `RuntimeError: MPV IPC socket was not created` | mpv is missing or failed to start. Run `mpv --version`. |
 | `OSError: [Errno 98] Address already in use` | Another controller is still running on port 8765. |
-| Music fades out and restarts every ~3 minutes | Known: the MP3s are 180 s renders with a fade-out, looped whole. |
+| Music fades out and restarts every ~3 minutes (1–1.5 min with the `ost` source) | Known: every MP3 has a fade-out at the end and is looped whole. |
 | Pallet Town music on the title screen | Known: the script trusts `wCurMap` before a save is loaded. |
+
+## Credits
+
+The map and music data in `data/` comes from [pokeyellow](https://github.com/pret/pokeyellow),
+the Pokémon Yellow disassembly by the [pret](https://github.com/pret) team:
+
+| File here | Upstream file |
+| --- | --- |
+| `data/map_constants.asm` | `constants/map_constants.asm` |
+| `data/songs.asm` | `data/maps/songs.asm` |
+| `data/music_constants.asm` | `constants/music_constants.asm` |
+
+These files describe the English release. The map → song table (`MapSongBanks`) they
+describe is byte-identical in the Spanish ROM, which is why this project can use them.
+Thanks to everyone who contributed to pret's disassemblies.
+
+Pokémon is © Nintendo, Creatures Inc. and GAME FREAK inc. This project ships no ROM or
+game audio.
