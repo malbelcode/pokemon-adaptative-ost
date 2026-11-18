@@ -22,6 +22,11 @@ local previous = {
     frame = nil
 }
 
+-- Sent every HEARTBEAT_FRAMES frames. Frames stop while mGBA is paused (also when
+-- it pauses in the background), so the controller pauses the music when they stop.
+local HEARTBEAT_FRAMES = 10
+local framesSinceHeartbeat = 0
+
 --------------------------------------------------
 -- TCP CONNECTION
 --------------------------------------------------
@@ -171,6 +176,13 @@ previous.frame = emu:currentFrame()
 console:log("[OST] Game-state monitoring started")
 
 callbacks:add("frame", function()
+    framesSinceHeartbeat = framesSinceHeartbeat + 1
+
+    if framesSinceHeartbeat >= HEARTBEAT_FRAMES then
+        sendEvent('{"event":"HEARTBEAT"}\n')
+        framesSinceHeartbeat = 0
+    end
+
     local frame = emu:currentFrame()
     local stateLoaded = previous.frame ~= nil and frame ~= previous.frame + 1
     previous.frame = frame

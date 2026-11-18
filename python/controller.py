@@ -1,6 +1,7 @@
 import argparse
 import json
 import socket
+import time
 from pathlib import Path
 
 from music_player import MusicPlayer
@@ -11,6 +12,12 @@ HOST = "127.0.0.1"
 PORT = 8765
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# The Lua script sends a HEARTBEAT every 10 frames (~0.17 s). mGBA stops running
+# frames while it is paused, including when "pause when inactive" pauses it in the
+# background, so a silence longer than this means the game is not running.
+HEARTBEAT_TIMEOUT = 0.5
+POLL_INTERVAL = 0.1
 
 MAP_MUSIC_FILE = BASE_DIR / "data/map_music.json"
 DEFAULT_LOCATION_TRACK = BASE_DIR / "music/locations/default.wav"
@@ -40,6 +47,8 @@ class AdaptiveOST:
         self.current_map = None
         self.last_battle_state = None
         self.victory_playing = False
+        self.paused = False
+        self.last_message_time = None
 
         with MAP_MUSIC_FILE.open(encoding="utf-8") as file:
             self.map_music = json.load(file)
@@ -53,6 +62,62 @@ class AdaptiveOST:
 
         if self.current_state == "OVERWORLD":
             self.play_location_music()
+
+    def set_paused(self, paused, reason=""):
+        if paused == self.paused:
+            return
+
+        self.paused = paused
+
+        if paused:
+            print(f"[PAUSE] {reason}. Pausing music")
+        else:
+            print("[PAUSE] mGBA is running again. Resuming music")
+
+        self.player.set_paused(paused)
+
+    def read_events(self, connection):
+        """Handle events from one mGBA connection until it closes.
+
+        Reads with a short timeout so the music can pause when mGBA stops
+        sending messages (emulation paused, or paused in the background).
+        """
+        connection.settimeout(POLL_INTERVAL)
+        buffer = b""
+        self.last_message_time = time.monotonic()
+
+        while True:
+            try:
+                data = connection.recv(4096)
+            except TimeoutError:
+                if time.monotonic() - self.last_message_time > HEARTBEAT_TIMEOUT:
+                    self.set_paused(True, "No frames from mGBA (paused or in the background)")
+                continue
+
+            if not data:
+                return
+
+            self.last_message_time = time.monotonic()
+            self.set_paused(False)
+
+            buffer += data
+            *lines, buffer = buffer.split(b"\n")
+
+            for raw_line in lines:
+                if not raw_line.strip():
+                    continue
+
+                line = raw_line.decode("utf-8", errors="replace")
+
+                try:
+                    event = json.loads(line)
+                except json.JSONDecodeError as error:
+                    print(f"[ERROR] {error}")
+                    print(f"[ERROR] Received data: {line!r}")
+                    print(f"[ERROR] Bytes: {raw_line.hex()}")
+                    continue
+
+                self.handle_event(event)
 
     def play_track(self, track):
         if track is None or track == self.current_track:
@@ -91,6 +156,9 @@ class AdaptiveOST:
 
         elif event_type == "STATE_LOADED":
             self.handle_state_loaded(event)
+
+        elif event_type == "HEARTBEAT":
+            pass
 
         else:
             print(f"[EVENT] Unknown event: {event}")
@@ -209,19 +277,10 @@ def main():
                 print(f"\n[CONNECTED] mGBA connected from {address}")
 
                 with connection:
-                    stream = connection.makefile("r", encoding="utf-8")
-
-                    for line in stream:
-                        try:
-                            event = json.loads(line)
-                            ost.handle_event(event)
-
-                        except json.JSONDecodeError as error:
-                            print(f"[ERROR] {error}")
-                            print(f"[ERROR] Received data: {line!r}")
-                            print(f"[ERROR] Bytes: {line.encode('utf-8').hex()}")
+                    ost.read_events(connection)
 
                 print("[DISCONNECTED] Waiting for mGBA...")
+                ost.set_paused(True, "mGBA disconnected")
 
     except KeyboardInterrupt:
         print("\n[OST] Shutting down...")

@@ -20,6 +20,7 @@ Other languages use different RAM addresses. See [docs/ARCHITECTURE.md](docs/ARC
 | Victory fanfare (wild / trainer / gym)   | Matching `Victory (...)` track, played once                   |
 | Back to the overworld                    | The current map's theme again                                 |
 | Loading a savestate (F1–F9, rewind)      | Switches to the music of the place in the loaded state        |
+| mGBA paused, in the background, or closed | Music pauses within ~0.5 s and resumes where it stopped       |
 
 Not handled yet: gym leader and champion battle themes, trainer "eyes meet" music, rival
 and Oak cutscenes, bicycle, surfing, Jessie & James, the heal jingle, and the title screen.
@@ -30,6 +31,9 @@ and Oak cutscenes, bicycle, surfing, Jessie & James, the heal jingle, and the ti
 - Python 3.10 or newer. Only the standard library is used.
 - `mpv` on `PATH` (`sudo apt install mpv`).
 - mGBA 0.10 or newer with Lua scripting (*Tools → Scripting…*).
+- For the music to pause when mGBA is in the background, enable mGBA's option to pause
+  when the window is inactive (`pauseOnFocusLost=1` in `~/.config/mgba/config.ini`). The
+  controller pauses the music whenever the game stops running frames.
 - The soundtrack MP3s, which are not included. Any of these folders works as a music
   source (see [Choose the music source](#choose-the-music-source)):
   - `music/Pokemon Yellow (MP3).zophar/` (zophar rip)
