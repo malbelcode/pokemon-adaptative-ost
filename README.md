@@ -92,11 +92,11 @@ python/
 config/
   music_themes.json         Game music constant (MUSIC_*) → canonical track name
   music_sources.json        Music source name → folder, and the default source
-data/
+data/                       pokeyellow files: see Credits
   map_constants.asm         From the pokeyellow disassembly: map symbols and ids
   songs.asm                 From pokeyellow: MapSongBanks, map → MUSIC_* constant
   music_constants.asm       From pokeyellow: list of music constants (reference only)
-  map_music.json            Generated: map id → name, symbol, music id, track path
+  map_music.json            Generated: map id → name, symbol, music id, track name
 music/                      Audio (not tracked; see Requirements)
 docs/
   ARCHITECTURE.md           How the pieces fit together, the protocol, RAM addresses
@@ -170,5 +170,23 @@ and compare the printed values with what you expect. See
 | `[OST] mGBA socket API unavailable` | Your mGBA build lacks Lua sockets. Use mGBA 0.10 or newer. |
 | `RuntimeError: MPV IPC socket was not created` | mpv is missing or failed to start. Run `mpv --version`. |
 | `OSError: [Errno 98] Address already in use` | Another controller is still running on port 8765. |
-| Music fades out and restarts every ~3 minutes | Known: the MP3s are 180 s renders with a fade-out, looped whole. |
+| Music fades out and restarts every ~3 minutes (1–1.5 min with `ost_*` sources) | Known: every MP3 has a fade-out at the end and is looped whole. |
 | Pallet Town music on the title screen | Known: the script trusts `wCurMap` before a save is loaded. |
+
+## Credits
+
+The map and music data in `data/` comes from [pokeyellow](https://github.com/pret/pokeyellow),
+the Pokémon Yellow disassembly by the [pret](https://github.com/pret) team:
+
+| File here | Upstream file |
+| --- | --- |
+| `data/map_constants.asm` | `constants/map_constants.asm` |
+| `data/songs.asm` | `data/maps/songs.asm` |
+| `data/music_constants.asm` | `constants/music_constants.asm` |
+
+These files describe the English release. The map → song table (`MapSongBanks`) they
+describe is byte-identical in the Spanish ROM, which is why this project can use them.
+Thanks to everyone who contributed to pret's disassemblies.
+
+Pokémon is © Nintendo, Creatures Inc. and GAME FREAK inc. This project ships no ROM or
+game audio.
