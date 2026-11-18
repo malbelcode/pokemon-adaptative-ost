@@ -113,7 +113,6 @@ python/
   map_registry.py           map id → readable name, parsed from data/map_constants.asm
   generate_map_registry.py  Builds data/map_music.json (run after editing themes)
   music_sources.py          Music source config + TrackResolver (canonical name → file)
-  generate_tracks.py        Synthesizes the placeholder .wav tracks
   test_music_player.py      Manual smoke test: plays a generated melody through mpv
   mpv_test.py               Manual check against an mpv started by hand
 config/
@@ -167,13 +166,13 @@ python3 generate_map_registry.py
 ```
 
 The generator stops with an error if a configured name exists in no source, and prints
-which sources lack it otherwise. It also prints which themes still have no file. Today that is only `MUSIC_SAFARI_ZONE`.
+which sources lack it otherwise. It also prints which themes still have no file (none today).
 
 ### Change battle or victory tracks
 
-These are hard-coded in `python/controller.py` (`BATTLE_TRACKS`, `VICTORY_TRACKS`,
-`DEFAULT_LOCATION_TRACK`). Battle and victory entries are canonical track names, resolved
-in the selected source.
+These are hard-coded in `python/controller.py`: `SONGS` (battle, victory and event songs
+by song id), `FANFARES` and the `BATTLE_TRACKS` fallback. Entries are canonical track
+names, resolved in the selected source.
 
 ### Check that mpv works
 

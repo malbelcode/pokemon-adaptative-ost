@@ -21,7 +21,6 @@ HEARTBEAT_TIMEOUT = 0.5
 POLL_INTERVAL = 0.1
 
 MAP_MUSIC_FILE = BASE_DIR / "data/map_music.json"
-DEFAULT_LOCATION_TRACK = BASE_DIR / "music/locations/default.wav"
 
 # Canonical track names, resolved inside the selected music source
 # (config/music_sources.json).
@@ -234,12 +233,12 @@ class AdaptiveOST:
         self.current_track = track
 
     def play_location_music(self):
-        map_entry = self.map_music.get(str(self.current_map))
+        name = self.map_entry().get("track")
+        track = self.tracks.resolve(name) if name else None
 
-        track = DEFAULT_LOCATION_TRACK
-
-        if map_entry and map_entry["track"]:
-            track = self.tracks.resolve(map_entry["track"]) or DEFAULT_LOCATION_TRACK
+        if track is None:
+            print(f"[MAP] No track for map {self.current_map}. Keeping the current music")
+            return
 
         self.play_track(track)
 

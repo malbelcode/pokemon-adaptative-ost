@@ -143,7 +143,7 @@ events don't restart the song.
 
 Map track lookup: `data/map_music.json[str(map_id)].track` is a canonical track name, which
 `TrackResolver` (`python/music_sources.py`) turns into a file in the selected source.
-If it is `null`, or the name is in no source, `music/locations/default.wav` plays instead.
+If it is `null`, or the name is in no source, the current music keeps playing and `[MAP]` logs it.
 
 ## Music sources
 
@@ -205,7 +205,6 @@ raw song ids must also know the bank.
 | --- | --- | --- |
 | `music/zophar/` | source `zophar` (default) | 53 tracks. Most are fixed 180 s renders with a fade-out in the last ~5 s. 56–63 are zophar-only jingles and fanfares. |
 | `music/ost/` | source `ost` | 45 tracks, 48 kHz, real stereo panning, 1–1.5 min each with a fade-out in the last ~10 s |
-| `music/locations/default.wav` | `DEFAULT_LOCATION_TRACK` | Placeholder from `generate_tracks.py`, played only if a map's track is in no source |
 
 ## Known limitations
 
