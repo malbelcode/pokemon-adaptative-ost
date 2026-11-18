@@ -79,8 +79,16 @@ class AdaptiveOST:
         elif event_type == "VICTORY_STARTED":
             self.handle_victory_started(event)
 
+        elif event_type == "TRAINER_SPOTTED":
+            self.handle_trainer_spotted()
+
         else:
             print(f"[EVENT] Unknown event: {event}")
+
+    def handle_trainer_spotted(self):
+        print("[TRAINER] Trainer spotted! Starting trainer music")
+
+        self.play_track(BATTLE_TRACKS["TRAINER_BATTLE"])
 
     def handle_victory_started(self, event):
         victory_type = event["victory_type"]

@@ -76,7 +76,7 @@ State: `current_state` (last `BATTLE_CHANGED.state`), `current_map`, `current_tr
 | `BATTLE_CHANGED` with `OVERWORLD` | Play the current map's track. This cuts off a victory fanfare that is still playing, as the game does. |
 | `BATTLE_CHANGED` with `LOST_BATTLE` / `UNKNOWN` | Only stores the state. The current track keeps playing. |
 | `VICTORY_STARTED` | Play `VICTORY_TRACKS[type]` once (`loop-file=no`). |
-| `TRAINER_SPOTTED` | Not handled yet. Logged as `[EVENT] Unknown event`. |
+| `TRAINER_SPOTTED` | Play `BATTLE_TRACKS["TRAINER_BATTLE"]`, looped, and log `[TRAINER]`. `current_state` is not changed. |
 | mpv `end-file` with `reason: eof` | If `OVERWORLD`, play the map's track. This callback runs on the mpv event thread. |
 
 `play_track` skips the request when the track is already the current one, so repeated
