@@ -92,15 +92,18 @@ Ids not yet extracted: battle themes, trainer intros, bike, surf, Yellow-only so
 All sets use canonical names (`NN Title.mp3`) after `tools/normalize_music.py --apply`.
 That script holds the original → canonical table for each set.
 
-- The zophar set (`music/Pokemon Yellow (MP3).zophar/`) has 98 files, 313 MB, 44.1 kHz.
+- The zophar set (`music/zophar/`, originally "Pokemon Yellow (MP3).zophar") has 98
+  files, 313 MB, 44.1 kHz.
   Most are exactly 180.0 s with a fade-out: −19 dB at 170 s, −49 dB at 176 s, −66 dB at
   179 s. Its 44 unnamed 1–4 s jingles (old names 46, 50, 57–98) are in `unidentified/`.
-- `music/Pokémon Yellow Soundtrack MP3/` is 55 stereo + 55 mono tracks (362 MB), 48 kHz,
-  ~340 kbps, with cover art. Lengths vary (Pallet Town 79.5 s, Wild Battle 91.2 s). Both
-  fade out over the last ~10 s (Pallet Town: −15 dB at 60 s, −20 dB at 70 s, −36 dB at
-  77.5 s). The "mono" files are 2-channel with L = R (L−R peak −91 dB). The "stereo"
-  files have real panning (L−R peak −3 to −4 dB). Stereo and mono have identical
-  durations.
+- `music/ost/` is "Part I - Stereo" of "Pokémon Yellow Soundtrack MP3": 55 tracks,
+  181 MB, 48 kHz, ~340 kbps, with cover art. Lengths vary (Pallet Town 79.5 s, Wild
+  Battle 91.2 s). They fade out over the last ~10 s (Pallet Town: −15 dB at 60 s, −20 dB
+  at 70 s, −36 dB at 77.5 s). Real panning: L−R peak −3 to −4 dB.
+- The rip's "Part II - Mono" was deleted because it adds nothing. Each file is 2-channel
+  with L = R (L−R peak −91 dB) and equals g·(L+R) of the stereo file, with no time
+  offset. g is 0.6–0.77 per track, and the residual is −36 to −39 dB, which is MP3
+  coding noise. `mpv --audio-channels=mono` gives the same result.
 - Zophar ↔ soundtrack pairing was checked by audio, not by title: chroma similarity of
   the first 30 s is 0.82–0.97 for every pair and at most 0.46 for the runner-up. Zophar
   "Opening (part 1/2)" = "Opening Movie" / "Title Screen", "Unknown Song" = "Theme Of

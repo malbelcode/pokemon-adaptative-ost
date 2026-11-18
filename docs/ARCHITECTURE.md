@@ -151,9 +151,8 @@ raw song ids must also know the bank.
 
 | Path | Used by | Notes |
 | --- | --- | --- |
-| `music/Pokemon Yellow (MP3).zophar/` | source `zophar` (default) | 98 files, 313 MB. 54 canonical tracks + `unidentified/` jingles. Most are fixed 180 s renders with a fade-out in the last ~5 s. |
-| `music/Pokémon Yellow Soundtrack MP3/Part I - Stereo/` | source `ost_stereo` | 55 tracks, 48 kHz, real stereo panning, 1–1.5 min each with a fade-out in the last ~10 s |
-| `music/Pokémon Yellow Soundtrack MP3/Part II - Mono/` | source `ost_mono` | The same 55 recordings, L = R |
+| `music/zophar/` | source `zophar` (default) | 98 files, 313 MB. 54 canonical tracks + `unidentified/` jingles. Most are fixed 180 s renders with a fade-out in the last ~5 s. |
+| `music/ost/` | source `ost` | 55 tracks, 181 MB, 48 kHz, real stereo panning, 1–1.5 min each with a fade-out in the last ~10 s |
 | `music/battles/{wild,trainer}.mp3` | nothing | Byte-identical copies of zophar `12` and `09` (old names 25, 24) |
 | `music/locations/*.mp3` | nothing | Copies of zophar `05`, `11` and `07` |
 | `music/locations/default.wav`, `music/battles/*.wav` | default location track | Placeholders from `generate_tracks.py` |

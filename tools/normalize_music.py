@@ -4,6 +4,11 @@ After this runs, the same song has the same file name in every set, for example
 "05 Pallet Town.mp3", so a music source is just a folder
 (see config/music_sources.json).
 
+Put each set in its folder first, with the original file names:
+    music/zophar/        the zophar rip ("Pokemon Yellow (MP3).zophar")
+    music/ost/           "Part I - Stereo" of "Pokémon Yellow Soundtrack MP3"
+The soundtrack's "Part II - Mono" is not needed: each file is a stereo downmix.
+
 Usage:
     python3 tools/normalize_music.py            # dry run: print the plan
     python3 tools/normalize_music.py --apply    # rename the files
@@ -21,11 +26,10 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 MUSIC_DIR = BASE_DIR / "music"
 
-ZOPHAR_DIR = MUSIC_DIR / "Pokemon Yellow (MP3).zophar"
-OST_DIR = MUSIC_DIR / "Pokémon Yellow Soundtrack MP3"
+ZOPHAR_DIR = MUSIC_DIR / "zophar"
+# Soundtrack file names start with the disc part: "1.05 Pallet Town.mp3" (stereo).
 OST_PARTS = {
-    "1": OST_DIR / "Part I - Stereo",
-    "2": OST_DIR / "Part II - Mono",
+    "1": MUSIC_DIR / "ost",
 }
 
 # Unnamed zophar jingles (1-4 s each) that match no soundtrack title.

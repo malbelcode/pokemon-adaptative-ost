@@ -34,10 +34,11 @@ and Oak cutscenes, bicycle, surfing, Jessie & James, the heal jingle, and the ti
 - For the music to pause when mGBA is in the background, enable mGBA's option to pause
   when the window is inactive (`pauseOnFocusLost=1` in `~/.config/mgba/config.ini`). The
   controller pauses the music whenever the game stops running frames.
-- The soundtrack MP3s, which are not included. Any of these folders works as a music
+- The soundtrack MP3s, which are not included. Each of these folders works as a music
   source (see [Choose the music source](#choose-the-music-source)):
-  - `music/Pokemon Yellow (MP3).zophar/` (zophar rip)
-  - `music/Pokémon Yellow Soundtrack MP3/Part I - Stereo/` and `…/Part II - Mono/`
+  - `music/zophar/`: the files of the zophar rip "Pokemon Yellow (MP3)"
+  - `music/ost/`: the files of "Part I - Stereo" from "Pokémon Yellow Soundtrack
+    MP3". Its "Part II - Mono" isn't needed: each mono file is a downmix of the stereo one.
 - After copying the MP3s in with their original names, rename them once to the shared
   names the code uses:
 
@@ -119,15 +120,14 @@ source is only a folder. The sources and the default are in `config/music_source
 
 | Source | Folder | Notes |
 | --- | --- | --- |
-| `zophar` (default) | `music/Pokemon Yellow (MP3).zophar/` | 180 s renders, 44.1 kHz. Fades out every 3 minutes when looped. |
-| `ost_stereo` | `music/Pokémon Yellow Soundtrack MP3/Part I - Stereo/` | Stereo, as the game sounds in mGBA. 48 kHz. Tracks are 1–1.5 min, so the fade comes sooner. |
-| `ost_mono` | `music/Pokémon Yellow Soundtrack MP3/Part II - Mono/` | Same recordings mixed to mono (original Game Boy speaker). |
+| `zophar` (default) | `music/zophar/` | 180 s renders, 44.1 kHz. Fades out every 3 minutes when looped. |
+| `ost` | `music/ost/` | Stereo, as the game sounds in mGBA. 48 kHz. Tracks are 1–1.5 min, so the fade comes sooner. |
 
 Change `"default"` in that file, or pick a source for one run:
 
 ```sh
 cd python
-python3 controller.py --source ost_stereo
+python3 controller.py --source ost
 ```
 
 The controller logs `[TRACK] Music source: …` at start. If a song is missing from the
@@ -174,7 +174,7 @@ and compare the printed values with what you expect. See
 | `[OST] mGBA socket API unavailable` | Your mGBA build lacks Lua sockets. Use mGBA 0.10 or newer. |
 | `RuntimeError: MPV IPC socket was not created` | mpv is missing or failed to start. Run `mpv --version`. |
 | `OSError: [Errno 98] Address already in use` | Another controller is still running on port 8765. |
-| Music fades out and restarts every ~3 minutes (1–1.5 min with `ost_*` sources) | Known: every MP3 has a fade-out at the end and is looped whole. |
+| Music fades out and restarts every ~3 minutes (1–1.5 min with the `ost` source) | Known: every MP3 has a fade-out at the end and is looped whole. |
 | Pallet Town music on the title screen | Known: the script trusts `wCurMap` before a save is loaded. |
 
 ## Credits

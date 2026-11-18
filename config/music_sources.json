@@ -1,8 +1,7 @@
 {
     "default": "zophar",
     "sources": {
-        "zophar": "music/Pokemon Yellow (MP3).zophar",
-        "ost_stereo": "music/Pokémon Yellow Soundtrack MP3/Part I - Stereo",
-        "ost_mono": "music/Pokémon Yellow Soundtrack MP3/Part II - Mono"
+        "zophar": "music/zophar",
+        "ost": "music/ost"
     }
 }
